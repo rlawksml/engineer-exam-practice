@@ -3,6 +3,21 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import exam2020_1 from "@/data/exam2020-1";
+import exam2020_2 from "@/data/exam2020-2";
+import exam2020_3 from "@/data/exam2020-3";
+import exam2020_4 from "@/data/exam2020-4";
+import exam2021_1 from "@/data/exam2021-1";
+import exam2021_2 from "@/data/exam2021-2";
+import exam2021_3 from "@/data/exam2021-3";
+import exam2022_1 from "@/data/exam2022-1";
+import exam2022_3 from "@/data/exam2022-3";
+import exam2023_1 from "@/data/exam2023-1";
+import exam2023_2 from "@/data/exam2023-2";
+import exam2023_3 from "@/data/exam2023-3";
+import exam2024_1 from "@/data/exam2024-1";
+import exam2024_2 from "@/data/exam2024-2";
+import exam2024_3 from "@/data/exam2024-3";
 import exam2025_1 from "@/data/exam2025-1";
 import exam2025_2 from "@/data/exam2025-2";
 import exam2025_3 from "@/data/exam2025-3";
@@ -13,6 +28,21 @@ import ProgressBar from "@/components/ProgressBar";
 import useExamStore from "@/store/useExamStore";
 
 const examMap: Record<string, ExamData> = {
+  "2020-1": exam2020_1,
+  "2020-2": exam2020_2,
+  "2020-3": exam2020_3,
+  "2020-4": exam2020_4,
+  "2021-1": exam2021_1,
+  "2021-2": exam2021_2,
+  "2021-3": exam2021_3,
+  "2022-1": exam2022_1,
+  "2022-3": exam2022_3,
+  "2023-1": exam2023_1,
+  "2023-2": exam2023_2,
+  "2023-3": exam2023_3,
+  "2024-1": exam2024_1,
+  "2024-2": exam2024_2,
+  "2024-3": exam2024_3,
   "2025-1": exam2025_1,
   "2025-2": exam2025_2,
   "2025-3": exam2025_3,

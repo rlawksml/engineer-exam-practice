@@ -6,11 +6,13 @@ import c from "highlight.js/lib/languages/c";
 import java from "highlight.js/lib/languages/java";
 import python from "highlight.js/lib/languages/python";
 import sql from "highlight.js/lib/languages/sql";
+import javascript from "highlight.js/lib/languages/javascript";
 
 hljs.registerLanguage("c", c);
 hljs.registerLanguage("java", java);
 hljs.registerLanguage("python", python);
 hljs.registerLanguage("sql", sql);
+hljs.registerLanguage("javascript", javascript);
 
 interface CodeBlockProps {
   code: string;

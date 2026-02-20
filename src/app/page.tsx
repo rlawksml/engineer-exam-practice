@@ -3,12 +3,34 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import useExamStore from "@/store/useExamStore";
+import exam2020_1 from "@/data/exam2020-1";
+import exam2020_2 from "@/data/exam2020-2";
+import exam2020_3 from "@/data/exam2020-3";
+import exam2020_4 from "@/data/exam2020-4";
+import exam2021_1 from "@/data/exam2021-1";
+import exam2021_2 from "@/data/exam2021-2";
+import exam2021_3 from "@/data/exam2021-3";
+import exam2022_1 from "@/data/exam2022-1";
+import exam2022_3 from "@/data/exam2022-3";
+import exam2023_1 from "@/data/exam2023-1";
+import exam2023_2 from "@/data/exam2023-2";
+import exam2023_3 from "@/data/exam2023-3";
+import exam2024_1 from "@/data/exam2024-1";
+import exam2024_2 from "@/data/exam2024-2";
+import exam2024_3 from "@/data/exam2024-3";
 import exam2025_1 from "@/data/exam2025-1";
 import exam2025_2 from "@/data/exam2025-2";
 import exam2025_3 from "@/data/exam2025-3";
 import { ExamData, Language } from "@/data/types";
 
-const exams: ExamData[] = [exam2025_1, exam2025_2, exam2025_3];
+const exams: ExamData[] = [
+  exam2025_3, exam2025_2, exam2025_1,
+  exam2024_3, exam2024_2, exam2024_1,
+  exam2023_3, exam2023_2, exam2023_1,
+  exam2022_3, exam2022_1,
+  exam2021_3, exam2021_2, exam2021_1,
+  exam2020_4, exam2020_3, exam2020_2, exam2020_1,
+];
 
 const langColors: Record<Language, string> = {
   C: "bg-blue-600/20 text-blue-400",

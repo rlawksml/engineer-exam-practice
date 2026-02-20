@@ -10,6 +10,7 @@ export interface Question {
   code: string;
   answer: string;
   explanation: string;
+  jsComparison?: string;
 }
 
 export interface ExamData {

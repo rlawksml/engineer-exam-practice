@@ -28,6 +28,7 @@ export default function QuestionCard({
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [showJsComparison, setShowJsComparison] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function QuestionCard({
       setSubmitted(false);
       setIsCorrect(false);
       setShowExplanation(false);
+      setShowJsComparison(false);
     }
   }, [question.id, question.examId, mounted, getAnswer]);
 
@@ -173,20 +175,42 @@ export default function QuestionCard({
           )}
         </div>
 
-        {/* Explanation */}
+        {/* Explanation + JS Comparison */}
         {mounted && submitted && (
-          <div className="pt-2">
-            <button
-              onClick={() => setShowExplanation(!showExplanation)}
-              className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 transition-colors"
-            >
-              {showExplanation ? "▼" : "▶"} 해설 보기
-            </button>
+          <div className="pt-2 space-y-2">
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowExplanation(!showExplanation)}
+                className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 transition-colors"
+              >
+                {showExplanation ? "▼" : "▶"} 해설 보기
+              </button>
+              {question.jsComparison && (
+                <button
+                  onClick={() => setShowJsComparison(!showJsComparison)}
+                  className="text-yellow-400 hover:text-yellow-300 text-sm font-medium flex items-center gap-1 transition-colors"
+                >
+                  {showJsComparison ? "▼" : "▶"} JS 비교
+                </button>
+              )}
+            </div>
             {showExplanation && (
-              <div className="mt-3 bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
                 <pre className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed font-sans">
                   {question.explanation}
                 </pre>
+              </div>
+            )}
+            {showJsComparison && question.jsComparison && (
+              <div className="bg-yellow-900/10 border border-yellow-800/40 rounded-lg overflow-hidden">
+                <div className="px-4 py-2 bg-yellow-900/20 border-b border-yellow-800/40">
+                  <span className="text-xs font-bold text-yellow-400">
+                    JavaScript로 비교하면?
+                  </span>
+                </div>
+                <div className="p-4">
+                  <CodeBlock code={question.jsComparison} language="javascript" />
+                </div>
               </div>
             )}
           </div>

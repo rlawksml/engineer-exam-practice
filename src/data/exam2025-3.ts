@@ -35,6 +35,21 @@ int main() {
 출력: C
 
 [핵심] 구조체 포인터 ->로 멤버 접근. 문자열 포인터 + n은 n번째 문자를 가리킨다.`,
+      jsComparison: `// JavaScript 등가 코드
+const test = [
+    { i: 1, g: "AB" },
+    { i: 2, g: "DC" },
+    { i: 3, g: "EB" }
+];
+
+const p = test[1]; // C의 &test[1] → JS는 참조로 접근
+// C: *(p->g + (p->i - 1))
+// JS: p.g.charAt(p.i - 1)
+console.log(p.g.charAt(p.i - 1)); // "DC".charAt(1) → "C"
+
+// C의 구조체(struct) → JS의 객체 리터럴 {}
+// C의 포인터(->)로 멤버 접근 → JS의 점(.) 연산자
+// C의 *(문자열 + n) → JS의 string.charAt(n)`,
     },
     {
       id: 302,
@@ -64,6 +79,16 @@ R(0) E(1) P(2) U(3) B(4) L(5) I(6) C(7) O(8) F(9) K(10) O(11) R(12) E(13) A(14)
 str[13] = 'E'
 
 [핵심] strlen()은 null 문자(\\0) 제외 길이. 인덱스는 0부터 시작하므로 마지막 문자는 str[len-1].`,
+      jsComparison: `// JavaScript 등가 코드
+const str = "REPUBLICOFKOREA";
+const a = str.length; // C의 strlen() → JS의 .length
+
+console.log(str.charAt(a - 2)); // str[13] → "E"
+// 또는: str[a - 2]
+
+// C의 strlen(str) → JS의 str.length
+// C의 str[n]은 char 반환 → JS의 str[n] 또는 str.charAt(n)은 문자열 반환
+// C는 null 종료(\\0) 문자가 있지만 JS 문자열에는 없음`,
     },
     {
       id: 303,
@@ -110,6 +135,31 @@ cur = NULL: 종료
 출력: 187
 
 [핵심] result = result * 10 + data 패턴은 각 자리 숫자를 하나의 정수로 합치는 기법이다.`,
+      jsComparison: `// JavaScript 등가 코드 - 연결 리스트 구현
+class Node {
+    constructor(data, next = null) {
+        this.data = data;
+        this.next = next;
+    }
+}
+
+const n3 = new Node(7);
+const n2 = new Node(8, n3);
+const n1 = new Node(1, n2);
+// n1(1) → n2(8) → n3(7) → null
+
+let cur = n1;
+let result = 0;
+while (cur !== null) {
+    result = result * 10 + cur.data;
+    cur = cur.next;
+}
+console.log(result); // 187
+
+// C의 NULL → JS의 null
+// C의 cur->data (포인터 멤버 접근) → JS의 cur.data
+// C의 struct + typedef → JS의 class
+// * 10 + data 패턴은 JS에서도 동일하게 자릿수를 합침`,
     },
     {
       id: 304,
@@ -144,6 +194,26 @@ result = {0: (15, 5), 1: (10, 3), 2: (18, 5), 3: (9, 2)}
 - min(): 리스트의 최소값
 - 딕셔너리: key-value 쌍, 중괄호 {} 사용
 - 튜플: 소괄호 (), 불변(immutable)`,
+      jsComparison: `// JavaScript 등가 코드
+const data = [
+    [10, 5, 15, 5],
+    [3, 7, 10, 3],
+    [8, 5, 18, 5],
+    [2, 7, 9, 2]
+];
+
+const result = {};
+for (let i = 0; i < data.length; i++) {
+    result[i] = [Math.max(...data[i]), Math.min(...data[i])];
+}
+console.log(result);
+// {0: [15, 5], 1: [10, 3], 2: [18, 5], 3: [9, 2]}
+
+// Python의 max(list) → JS의 Math.max(...array) (스프레드 연산자 필요)
+// Python의 min(list) → JS의 Math.min(...array)
+// Python의 dict {} → JS의 Object {} (거의 동일)
+// Python의 tuple () → JS에는 튜플이 없어 배열 []로 대체
+// Python의 range(len(data)) → JS의 for (let i = 0; i < data.length; i++)`,
     },
     {
       id: 305,
@@ -179,6 +249,28 @@ COUNT(col2): col2가 NULL이 아닌 값의 개수
 - COUNT(컬럼명): NULL 제외 개수
 - COUNT(*): NULL 포함 전체 행 수
 - IN (값1, 값2): 값 목록 중 하나와 일치`,
+      jsComparison: `// JavaScript 등가 코드
+const A = [
+    { col1: 1, col2: null },
+    { col1: 2, col2: 3 },
+    { col1: 3, col2: 5 },
+    { col1: 4, col2: 2 },
+    { col1: 5, col2: 4 }
+];
+
+// SQL: WHERE col1 IN (2,3) OR col2 IN (3,5)
+const filtered = A.filter(row =>
+    [2, 3].includes(row.col1) || [3, 5].includes(row.col2)
+);
+
+// SQL: COUNT(col2) → NULL이 아닌 col2만 카운트
+const count = filtered.filter(row => row.col2 !== null).length;
+console.log(count);
+
+// SQL의 IN (값1, 값2) → JS의 [값1, 값2].includes(value)
+// SQL의 OR → JS의 || 연산자
+// SQL의 COUNT(컬럼) → JS의 .filter(not null).length (NULL 제외)
+// SQL의 COUNT(*) → JS의 .length (NULL 포함)`,
     },
     {
       id: 306,
@@ -208,6 +300,17 @@ int main() {
 
 [핵심] 삼항 연산자: (조건) ? 참일때값 : 거짓일때값
 C에서 가장 자주 출제되는 패턴 중 하나이다.`,
+      jsComparison: `// JavaScript 등가 코드 - 삼항 연산자는 C와 거의 동일
+let a = 5, b = 3, c = 0;
+
+c = (a > b) ? (a - b) : (b - a); // c = 2
+c = (c > 3) ? 1 : 0;             // c = 0
+
+console.log(c); // 0
+
+// C와 JS의 삼항 연산자 문법은 완전히 동일함
+// (조건) ? 참일때값 : 거짓일때값
+// 차이점: C는 int 타입 선언 필요 → JS는 let/const 사용`,
     },
     {
       id: 307,
@@ -255,6 +358,34 @@ public class Main {
 
 [핵심] enum: 열거 타입. 상수에 값과 메서드를 부여할 수 있다.
 substring(start, end): start부터 end-1까지의 부분 문자열.`,
+      jsComparison: `// JavaScript 등가 코드 - Object.freeze로 enum 패턴 구현
+const Grade = Object.freeze({
+    A: { desc: "Excellent" },
+    B: { desc: "Good" },
+    C: { desc: "Average" },
+    getFirst(grade) {
+        return grade.desc.substring(0, 1);
+    }
+});
+
+// 사용
+console.log(Grade.getFirst(Grade.A)); // "E"
+console.log(Grade.getFirst(Grade.B)); // "G"
+
+// 또는 class 기반 enum 패턴
+class GradeEnum {
+    constructor(desc) { this.desc = desc; }
+    getFirst() { return this.desc.substring(0, 1); }
+    static A = new GradeEnum("Excellent");
+    static B = new GradeEnum("Good");
+    static C = new GradeEnum("Average");
+}
+console.log(GradeEnum.A.getFirst()); // "E"
+console.log(GradeEnum.B.getFirst()); // "G"
+
+// Java의 enum → JS에는 네이티브 enum이 없음 (TypeScript에는 있음)
+// Java의 substring(0,1) → JS의 substring(0,1) 동일
+// Object.freeze()로 불변 객체를 만들어 enum처럼 사용 가능`,
     },
     {
       id: 308,
@@ -284,6 +415,25 @@ COUNT(*) = 4
 [핵심]
 - COUNT(*): 조건에 맞는 전체 행 수 (NULL 포함)
 - IN: WHERE 절에서 여러 값을 OR 조건으로 비교하는 간편 문법`,
+      jsComparison: `// JavaScript 등가 코드
+const B = [
+    { id: 1, name: "김철수", dept: "영업부" },
+    { id: 2, name: "이영희", dept: "개발부" },
+    { id: 3, name: "박민수", dept: "인사부" },
+    { id: 4, name: "정수연", dept: "영업부" },
+    { id: 5, name: "홍길동", dept: "개발부" }
+];
+
+// SQL: SELECT COUNT(*) FROM B WHERE dept IN ('영업부', '개발부')
+const count = B.filter(row =>
+    ["영업부", "개발부"].includes(row.dept)
+).length;
+
+console.log(count); // 4
+
+// SQL의 IN ('값1', '값2') → JS의 ['값1', '값2'].includes(value)
+// SQL의 COUNT(*) → JS의 .filter().length
+// SQL의 테이블 → JS의 객체 배열`,
     },
   ],
 };
