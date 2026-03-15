@@ -69,13 +69,14 @@ export default function ExamPage() {
   }, [exam, category]);
 
   const counts = useMemo(() => {
-    if (!exam) return { all: 0, C: 0, Java: 0, Python: 0, SQL: 0 };
+    if (!exam) return { all: 0, C: 0, Java: 0, Python: 0, SQL: 0, 이론: 0 };
     const c: Record<Language | "all", number> = {
       all: exam.questions.length,
       C: 0,
       Java: 0,
       Python: 0,
       SQL: 0,
+      이론: 0,
     };
     exam.questions.forEach((q) => c[q.language]++);
     return c;

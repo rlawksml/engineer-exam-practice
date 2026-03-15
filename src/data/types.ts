@@ -1,4 +1,4 @@
-export type Language = "C" | "Java" | "Python" | "SQL";
+export type Language = "C" | "Java" | "Python" | "SQL" | "이론";
 
 export interface Question {
   id: number;
@@ -7,7 +7,7 @@ export interface Question {
   language: Language;
   title: string;
   question: string;
-  code: string;
+  code?: string;
   answer: string;
   explanation: string;
   jsComparison?: string;

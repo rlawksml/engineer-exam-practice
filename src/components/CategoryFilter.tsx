@@ -8,6 +8,7 @@ const categories: { label: string; value: Language | "all" }[] = [
   { label: "Java", value: "Java" },
   { label: "Python", value: "Python" },
   { label: "SQL", value: "SQL" },
+  { label: "이론", value: "이론" },
 ];
 
 interface CategoryFilterProps {

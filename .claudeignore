@@ -1,0 +1,38 @@
+# Node.js 프로젝트 예시
+node_modules/
+dist/
+build/
+.git/
+*.log
+.env
+.env.local
+coverage/
+
+
+# Dependency
+node_modules/
+jspm_packages/
+
+# Build & Dist
+dist/
+build/
+out/
+
+# Logs
+*.log
+logs/
+
+# Secrets & Config
+.env
+.env.*
+.secrets
+
+# System & IDE
+.DS_Store
+.vscode/
+.idea/
+.git/
+
+# Others
+*.tmp
+*.csv

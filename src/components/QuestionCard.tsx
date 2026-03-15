@@ -16,6 +16,7 @@ const languageColors: Record<string, string> = {
   Java: "bg-orange-600",
   Python: "bg-green-600",
   SQL: "bg-purple-600",
+  이론: "bg-gray-600",
 };
 
 export default function QuestionCard({

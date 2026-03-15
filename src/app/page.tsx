@@ -37,10 +37,11 @@ const langColors: Record<Language, string> = {
   Java: "bg-orange-600/20 text-orange-400",
   Python: "bg-green-600/20 text-green-400",
   SQL: "bg-purple-600/20 text-purple-400",
+  이론: "bg-gray-600/20 text-gray-400",
 };
 
 function getLangCounts(exam: ExamData): Record<Language, number> {
-  const counts: Record<Language, number> = { C: 0, Java: 0, Python: 0, SQL: 0 };
+  const counts: Record<Language, number> = { C: 0, Java: 0, Python: 0, SQL: 0, 이론: 0 };
   exam.questions.forEach((q) => counts[q.language]++);
   return counts;
 }
@@ -75,7 +76,7 @@ export default function HomePage() {
           C / Java / Python / SQL 코딩 문제 풀이
         </p>
         <p className="text-gray-500 text-sm">
-          2025년 1~3회 기출 복원 문제 총 {totalQuestions}문제
+          2020~2025년 기출 복원 문제 총 {totalQuestions}문제
         </p>
       </div>
 
