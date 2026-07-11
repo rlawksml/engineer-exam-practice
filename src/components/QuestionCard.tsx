@@ -30,6 +30,7 @@ export default function QuestionCard({
   const [isCorrect, setIsCorrect] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [showJsComparison, setShowJsComparison] = useState(false);
+  const [showPractice, setShowPractice] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function QuestionCard({
       setIsCorrect(false);
       setShowExplanation(false);
       setShowJsComparison(false);
+      setShowPractice(false);
     }
   }, [question.id, question.examId, mounted, getAnswer]);
 
@@ -72,6 +74,7 @@ export default function QuestionCard({
     setSubmitted(false);
     setIsCorrect(false);
     setShowExplanation(false);
+    setShowPractice(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -116,6 +119,24 @@ export default function QuestionCard({
         <p className="text-gray-300 whitespace-pre-line leading-relaxed">
           {question.question}
         </p>
+
+        {(question.difficulty || question.concepts?.length) && (
+          <div className="flex flex-wrap gap-2">
+            {question.difficulty && (
+              <span className="rounded-md bg-blue-600/20 px-2.5 py-1 text-xs font-medium text-blue-300">
+                난이도 {question.difficulty}
+              </span>
+            )}
+            {question.concepts?.map((concept) => (
+              <span
+                key={concept}
+                className="rounded-md bg-gray-800 px-2.5 py-1 text-xs font-medium text-gray-300"
+              >
+                {concept}
+              </span>
+            ))}
+          </div>
+        )}
 
         {question.code && (
           <CodeBlock
@@ -194,12 +215,34 @@ export default function QuestionCard({
                   {showJsComparison ? "▼" : "▶"} JS 비교
                 </button>
               )}
+              {question.practiceQuestions?.length ? (
+                <button
+                  onClick={() => setShowPractice(!showPractice)}
+                  className="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center gap-1 transition-colors"
+                >
+                  {showPractice ? "▼" : "▶"} 유사 실전 문제
+                </button>
+              ) : null}
             </div>
             {showExplanation && (
-              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
-                <pre className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed font-sans">
-                  {question.explanation}
-                </pre>
+              <div className="space-y-3">
+                <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-5">
+                  <pre className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed font-sans">
+                    {question.explanation}
+                  </pre>
+                </div>
+                {question.commonMistakes?.length ? (
+                  <div className="rounded-lg border border-red-900/60 bg-red-950/20 p-4">
+                    <p className="mb-2 text-xs font-bold text-red-300">
+                      자주 틀리는 포인트
+                    </p>
+                    <ul className="space-y-1 text-sm text-red-100">
+                      {question.commonMistakes.map((mistake) => (
+                        <li key={mistake}>- {mistake}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             )}
             {showJsComparison && question.jsComparison && (
@@ -214,6 +257,51 @@ export default function QuestionCard({
                 </div>
               </div>
             )}
+            {showPractice && question.practiceQuestions?.length ? (
+              <div className="space-y-3">
+                {question.practiceQuestions.map((practice) => (
+                  <div
+                    key={practice.id}
+                    className="rounded-lg border border-emerald-900/50 bg-emerald-950/10 overflow-hidden"
+                  >
+                    <div className="border-b border-emerald-900/50 bg-emerald-950/30 px-4 py-3">
+                      <p className="text-xs font-bold text-emerald-300">
+                        {practice.title}
+                      </p>
+                    </div>
+                    <div className="space-y-3 p-4">
+                      <p className="whitespace-pre-line text-sm leading-relaxed text-gray-300">
+                        {practice.question}
+                      </p>
+                      {practice.code && (
+                        <CodeBlock
+                          code={practice.code}
+                          language={question.language.toLowerCase()}
+                        />
+                      )}
+                      <div className="rounded-md bg-gray-900/70 p-3">
+                        <p className="text-sm text-gray-300">
+                          <span className="font-bold text-emerald-300">
+                            정답:
+                          </span>{" "}
+                          <code className="rounded bg-emerald-900/30 px-1.5 py-0.5 text-emerald-100">
+                            {practice.answer}
+                          </code>
+                        </p>
+                        <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-gray-400">
+                          {practice.explanation}
+                        </p>
+                        {practice.trap && (
+                          <p className="mt-2 text-sm text-yellow-200">
+                            낚시 포인트: {practice.trap}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         )}
       </div>
