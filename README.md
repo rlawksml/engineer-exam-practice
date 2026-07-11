@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 정보처리기사 실기 대비 앱
 
-## Getting Started
+정보처리기사 실기 시험을 어디서든 반복 학습하기 위한 웹 앱입니다.
 
-First, run the development server:
+기출 복원 문제 풀이뿐 아니라, 전략 문서 기반의 개념 카드 학습을 함께 제공해 짧은 시간에도 코딩 문제와 이론 단답을 번갈아 복습할 수 있게 합니다.
+
+## 주요 기능
+
+- 2020~2025년 정보처리기사 실기 기출 복원 문제 풀이
+- C / Java / Python / SQL / 이론 카테고리 필터
+- 정답 입력, 해설 확인, JavaScript 비교 예시
+- 회차별 진행률과 정답률 저장
+- 전략 문서 기반 개념 카드 학습
+- 개념 카드별 `알고 있음`, `헷갈림`, `모름` 상태 저장
+- 섹션별 진행률 확인
+
+## 개념 카드 섹션
+
+- Python 함정
+- C 함정
+- Java 함정
+- SQL/DB
+- 네트워크/보안
+- 소프트웨어 공학
+
+## 기준 문서
+
+- `information_processing_engineer_practical_exam_strategy.md`
+
+이 문서는 최근 복원 문제 흐름, 언어별 대표 함정, 예상문제 생성 비율, 해설 작성 형식, 오답노트 작성 기준을 정리합니다.
+
+## 개발 실행
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 `http://localhost:3000`을 엽니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 검증
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## 배포
 
-To learn more about Next.js, take a look at the following resources:
+Vercel 프로젝트 `test`에 배포됩니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Production URL:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- https://testforgenie.vercel.app

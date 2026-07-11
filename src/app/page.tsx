@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import useExamStore from "@/store/useExamStore";
+import useConceptStore from "@/store/useConceptStore";
+import { conceptSections, getTotalConceptCards } from "@/data/conceptCards";
 import exam2020_1 from "@/data/exam2020-1";
 import exam2020_2 from "@/data/exam2020-2";
 import exam2020_3 from "@/data/exam2020-3";
@@ -48,6 +50,7 @@ function getLangCounts(exam: ExamData): Record<Language, number> {
 
 export default function HomePage() {
   const { answers } = useExamStore();
+  const { cardStatus } = useConceptStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -64,21 +67,77 @@ export default function HomePage() {
         0
       )
     : 0;
+  const totalConceptCards = getTotalConceptCards();
+  const checkedConceptCards = mounted ? Object.values(cardStatus).length : 0;
+  const uncertainConceptCards = mounted
+    ? Object.values(cardStatus).filter((status) => status !== "known").length
+    : 0;
 
   return (
     <div className="space-y-8">
       {/* Hero */}
       <div className="text-center space-y-3 py-6">
         <h1 className="text-3xl font-bold text-white">
-          정보처리기사 실기 기출문제
+          정보처리기사 실기 대비
         </h1>
         <p className="text-gray-400 text-lg">
-          C / Java / Python / SQL 코딩 문제 풀이
+          기출 풀이와 개념 카드로 반복 학습
         </p>
         <p className="text-gray-500 text-sm">
-          2020~2025년 기출 복원 문제 총 {totalQuestions}문제
+          2020~2025년 기출 복원 {totalQuestions}문제 · 개념 카드{" "}
+          {totalConceptCards}장
         </p>
       </div>
+
+      {/* Study Modes */}
+      <section className="grid gap-4 md:grid-cols-2">
+        <Link
+          href="#exam-list"
+          className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-blue-700 hover:bg-gray-900/80"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-blue-400">기출 풀이</p>
+              <h2 className="mt-2 text-xl font-bold text-white">
+                회차별 문제 연습
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                C, Java, Python, SQL 문제를 회차별로 풀고 해설을 확인합니다.
+              </p>
+            </div>
+            <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
+              {totalQuestions}문제
+            </span>
+          </div>
+        </Link>
+
+        <Link
+          href="/concepts"
+          className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-emerald-700 hover:bg-gray-900/80"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-emerald-400">개념 카드</p>
+              <h2 className="mt-2 text-xl font-bold text-white">
+                섹션별 빠른 복습
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                출제 함정과 단답 키워드를 카드로 넘기며 시험 직전 감각을 잡습니다.
+              </p>
+            </div>
+            <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
+              {mounted && checkedConceptCards > 0
+                ? `${checkedConceptCards}/${totalConceptCards}`
+                : `${totalConceptCards}장`}
+            </span>
+          </div>
+          {mounted && checkedConceptCards > 0 && (
+            <div className="mt-4 text-xs text-gray-500">
+              다시 볼 카드 {uncertainConceptCards}장
+            </div>
+          )}
+        </Link>
+      </section>
 
       {/* Stats */}
       {mounted && totalAnswered > 0 && (
@@ -105,8 +164,36 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Concept Sections */}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold text-white">개념 카드 섹션</h2>
+          <Link
+            href="/concepts"
+            className="text-sm text-blue-400 transition-colors hover:text-blue-300"
+          >
+            전체 보기
+          </Link>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {conceptSections.map((section) => (
+            <Link
+              key={section.id}
+              href={`/concepts/${section.id}`}
+              className="rounded-lg border border-gray-800 bg-gray-900 p-4 transition-colors hover:border-gray-600"
+            >
+              <p className="text-xs text-gray-500">{section.priority}</p>
+              <h3 className="mt-2 font-bold text-white">{section.title}</h3>
+              <p className="mt-1 text-xs text-gray-500">
+                {section.cards.length}장
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Exam Cards */}
-      <div className="space-y-4">
+      <div id="exam-list" className="space-y-4 scroll-mt-24">
         {exams.map((exam) => {
           const langCounts = getLangCounts(exam);
           const examAnswers = mounted ? answers[exam.id] || [] : [];

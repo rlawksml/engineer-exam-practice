@@ -18,3 +18,23 @@ export interface ExamData {
   title: string;
   questions: Question[];
 }
+
+export type ConceptStatus = "known" | "uncertain" | "unknown";
+
+export interface ConceptCard {
+  id: string;
+  sectionId: string;
+  front: string;
+  back: string;
+  examPoint: string;
+  trap?: string;
+  relatedKeywords: string[];
+}
+
+export interface ConceptSection {
+  id: string;
+  title: string;
+  description: string;
+  priority: string;
+  cards: ConceptCard[];
+}
