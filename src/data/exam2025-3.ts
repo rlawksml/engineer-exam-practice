@@ -35,6 +35,38 @@ int main() {
 출력: C
 
 [핵심] 구조체 포인터 ->로 멤버 접근. 문자열 포인터 + n은 n번째 문자를 가리킨다.`,
+      concepts: ["구조체 포인터", "문자열 포인터", "포인터 연산"],
+      difficulty: "중",
+      commonMistakes: [
+        "p가 test[0]이 아니라 test[1]을 가리킨다는 점을 놓침",
+        "p->g + 1을 문자열 두 번째 문자 주소로 보지 못함",
+        "p->i - 1 계산을 먼저 하지 않아 인덱스를 잘못 잡음",
+      ],
+      practiceQuestions: [
+        {
+          id: "2025-3-301-p1",
+          title: "유사 실전 문제: 구조체 포인터 인덱싱",
+          question: "다음 C 코드의 실행 결과를 쓰시오.",
+          code: `#include <stdio.h>
+
+struct Item {
+    int idx;
+    char *word;
+};
+
+int main() {
+    struct Item items[] = {{0, "NET"}, {2, "SQL"}, {1, "API"}};
+    struct Item *p = &items[2];
+
+    printf("%c", *(p->word + p->idx));
+    return 0;
+}`,
+          answer: "P",
+          explanation:
+            "p는 items[2]를 가리키므로 idx=1, word=\"API\"입니다. p->word + 1은 'P'의 주소이고, 역참조 결과는 'P'입니다.",
+          trap: "구조체 배열의 몇 번째 요소를 가리키는지 먼저 확인해야 합니다.",
+        },
+      ],
       jsComparison: `// JavaScript 등가 코드
 const test = [
     { i: 1, g: "AB" },
@@ -194,6 +226,31 @@ result = {0: (15, 5), 1: (10, 3), 2: (18, 5), 3: (9, 2)}
 - min(): 리스트의 최소값
 - 딕셔너리: key-value 쌍, 중괄호 {} 사용
 - 튜플: 소괄호 (), 불변(immutable)`,
+      concepts: ["딕셔너리", "반복문", "max/min", "튜플"],
+      difficulty: "하",
+      commonMistakes: [
+        "range(len(data))가 0부터 3까지 돈다는 점을 놓침",
+        "딕셔너리 값이 리스트가 아니라 튜플 형태로 저장된다는 점을 놓침",
+        "중복값이 있어도 max/min 결과에는 영향이 없다는 점을 혼동함",
+      ],
+      practiceQuestions: [
+        {
+          id: "2025-3-304-p1",
+          title: "유사 실전 문제: 리스트별 합계 딕셔너리",
+          question: "다음 Python 코드의 실행 결과를 쓰시오.",
+          code: `data = [[1, 4], [3, 2, 5], [6]]
+
+result = {}
+for i in range(len(data)):
+    result[i] = (sum(data[i]), len(data[i]))
+
+print(result)`,
+          answer: "{0: (5, 2), 1: (10, 3), 2: (6, 1)}",
+          explanation:
+            "각 리스트의 합과 길이를 튜플로 저장합니다. 0번은 (5, 2), 1번은 (10, 3), 2번은 (6, 1)이 됩니다.",
+          trap: "딕셔너리 key는 반복 인덱스 i이고, value는 튜플입니다.",
+        },
+      ],
       jsComparison: `// JavaScript 등가 코드
 const data = [
     [10, 5, 15, 5],
@@ -226,7 +283,7 @@ console.log(result);
       code: `SELECT COUNT(col2)
 FROM A
 WHERE col1 IN (2, 3) OR col2 IN (3, 5);`,
-      answer: "4",
+      answer: "2",
       explanation: `[조건 분석]
 col1 IN (2,3): col1이 2 또는 3인 행
 col2 IN (3,5): col2가 3 또는 5인 행
@@ -243,12 +300,34 @@ OR 연산이므로 둘 중 하나라도 만족하면 선택
 선택된 행: (2,3), (3,5) → 2행
 COUNT(col2): col2가 NULL이 아닌 값의 개수
 
-실제 시험 복원 정답: 4 (원본 테이블 데이터에 따라 상이)
+현재 테이블 기준 정답: 2
 
 [핵심]
 - COUNT(컬럼명): NULL 제외 개수
 - COUNT(*): NULL 포함 전체 행 수
 - IN (값1, 값2): 값 목록 중 하나와 일치`,
+      concepts: ["COUNT(column)", "WHERE", "OR", "IN", "NULL"],
+      difficulty: "중",
+      commonMistakes: [
+        "OR 조건을 만족하는 행을 중복해서 세려고 함",
+        "COUNT(col2)가 NULL을 제외한다는 점을 놓침",
+        "문제의 테이블 기준 결과와 복원 정답 메모를 구분하지 못함",
+      ],
+      practiceQuestions: [
+        {
+          id: "2025-3-305-p1",
+          title: "유사 실전 문제: COUNT(column)와 NULL",
+          question:
+            "다음 테이블에서 SQL 실행 결과를 쓰시오.\n\n[테이블 T]\n| id | score |\n|----|-------|\n| 1  | NULL  |\n| 2  | 80    |\n| 3  | 90    |\n| 4  | NULL  |",
+          code: `SELECT COUNT(score)
+FROM T
+WHERE id IN (1, 2, 3);`,
+          answer: "2",
+          explanation:
+            "WHERE 조건으로 id 1, 2, 3 행이 선택됩니다. 이 중 score가 NULL이 아닌 행은 id 2와 3이므로 COUNT(score)는 2입니다.",
+          trap: "COUNT(*)라면 3이지만 COUNT(score)는 NULL을 제외합니다.",
+        },
+      ],
       jsComparison: `// JavaScript 등가 코드
 const A = [
     { col1: 1, col2: null },
@@ -300,6 +379,34 @@ int main() {
 
 [핵심] 삼항 연산자: (조건) ? 참일때값 : 거짓일때값
 C에서 가장 자주 출제되는 패턴 중 하나이다.`,
+      concepts: ["삼항 연산자", "조건식", "순차 대입"],
+      difficulty: "하",
+      commonMistakes: [
+        "첫 번째 삼항 연산 결과 c=2를 두 번째 조건에 다시 넣는 흐름을 놓침",
+        "c > 3이 거짓인데 참 분기 1을 선택함",
+      ],
+      practiceQuestions: [
+        {
+          id: "2025-3-306-p1",
+          title: "유사 실전 문제: 삼항 연산자 연속 적용",
+          question: "다음 C 코드의 실행 결과를 쓰시오.",
+          code: `#include <stdio.h>
+
+int main() {
+    int x = 4, y = 9, r = 0;
+
+    r = (x < y) ? (y - x) : (x - y);
+    r = (r % 2 == 1) ? r + 1 : r - 1;
+
+    printf("%d", r);
+    return 0;
+}`,
+          answer: "6",
+          explanation:
+            "x < y가 참이므로 r=9-4=5입니다. 5는 홀수이므로 r+1을 선택해 최종 r=6입니다.",
+          trap: "두 번째 삼항 연산은 첫 번째 결과 r을 기준으로 다시 판단합니다.",
+        },
+      ],
       jsComparison: `// JavaScript 등가 코드 - 삼항 연산자는 C와 거의 동일
 let a = 5, b = 3, c = 0;
 

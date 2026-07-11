@@ -11,6 +11,20 @@ export interface Question {
   answer: string;
   explanation: string;
   jsComparison?: string;
+  concepts?: string[];
+  difficulty?: "하" | "중" | "상";
+  commonMistakes?: string[];
+  practiceQuestions?: PracticeQuestion[];
+}
+
+export interface PracticeQuestion {
+  id: string;
+  title: string;
+  question: string;
+  code?: string;
+  answer: string;
+  explanation: string;
+  trap?: string;
 }
 
 export interface ExamData {
