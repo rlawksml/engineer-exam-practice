@@ -46,6 +46,7 @@ npm run dev
 npm run test
 npm run lint
 npm run build
+npm audit
 ```
 
 ## 배포
