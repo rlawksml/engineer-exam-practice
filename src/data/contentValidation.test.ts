@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { conceptSections } from "./conceptCards";
+import { quickReviewCards, quickReviewSections } from "./quickReviewCards";
 import exam2020_1 from "./exam2020-1";
 import exam2020_2 from "./exam2020-2";
 import exam2020_3 from "./exam2020-3";
@@ -21,7 +22,7 @@ import exam2025_3 from "./exam2025-3";
 import mockExam2026_1 from "./mockExam2026-1";
 import mockExam2026_2 from "./mockExam2026-2";
 import mockExam2026_3 from "./mockExam2026-3";
-import { ConceptCard, ExamData, Question } from "./types";
+import { ConceptCard, ExamData, Question, QuickReviewCard } from "./types";
 
 const exams: ExamData[] = [
   mockExam2026_1,
@@ -169,5 +170,48 @@ describe("concept card integrity", () => {
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
+  });
+});
+
+describe("quick review card integrity", () => {
+  it("keeps quick sections and cards unique and linked", () => {
+    const sectionIds = new Set<string>();
+    const cardIds = new Set<string>();
+
+    quickReviewSections.forEach((section) => {
+      expectNonEmpty(section.id, "quick section id");
+      expectNonEmpty(section.title, `quick section title: ${section.id}`);
+      expectNonEmpty(section.description, `quick section description: ${section.id}`);
+      expect(sectionIds.has(section.id), `duplicate quick section id: ${section.id}`).toBe(false);
+      sectionIds.add(section.id);
+      expect(section.cards.length, `quick cards for ${section.id}`).toBeGreaterThan(0);
+
+      section.cards.forEach((card) => {
+        expect(card.sectionId, `quick card ${card.id} sectionId`).toBe(section.id);
+        expect(cardIds.has(card.id), `duplicate quick card id: ${card.id}`).toBe(false);
+        cardIds.add(card.id);
+      });
+    });
+  });
+
+  it("keeps quick review prompts and answers concise and filled", () => {
+    quickReviewCards.forEach((card: QuickReviewCard) => {
+      expectNonEmpty(card.prompt, `quick prompt: ${card.id}`);
+      expectNonEmpty(card.answer, `quick answer: ${card.id}`);
+      expect(card.prompt.length, `quick prompt length: ${card.id}`).toBeLessThanOrEqual(80);
+      expect(card.answer.length, `quick answer length: ${card.id}`).toBeLessThanOrEqual(80);
+    });
+  });
+
+  it("covers high-frequency short-answer concepts", () => {
+    const byId = new Map(quickReviewCards.map((card) => [card.id, card]));
+
+    expect(byId.get("network-crc")?.answer).toContain("오류 검출");
+    expect(byId.get("network-rarp")?.prompt).toContain("MAC -> IP");
+    expect(byId.get("network-rarp")?.answer).toBe("RARP");
+    expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
+    expect(byId.get("se-coupling-order")?.answer).toContain("자료");
+    expect(byId.get("se-stub")?.answer).toBe("스텁");
+    expect(byId.get("se-driver")?.answer).toBe("드라이버");
   });
 });

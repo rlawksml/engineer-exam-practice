@@ -52,3 +52,19 @@ export interface ConceptSection {
   priority: string;
   cards: ConceptCard[];
 }
+
+export interface QuickReviewCard {
+  id: string;
+  sectionId: string;
+  prompt: string;
+  answer: string;
+  note?: string;
+  aliases?: string[];
+}
+
+export interface QuickReviewSection {
+  id: string;
+  title: string;
+  description: string;
+  cards: QuickReviewCard[];
+}

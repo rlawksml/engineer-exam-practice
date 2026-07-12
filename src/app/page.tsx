@@ -5,6 +5,7 @@ import Link from "next/link";
 import useExamStore from "@/store/useExamStore";
 import useConceptStore from "@/store/useConceptStore";
 import { conceptSections, getTotalConceptCards } from "@/data/conceptCards";
+import { getTotalQuickReviewCards } from "@/data/quickReviewCards";
 import exam2020_1 from "@/data/exam2020-1";
 import exam2020_2 from "@/data/exam2020-2";
 import exam2020_3 from "@/data/exam2020-3";
@@ -72,6 +73,7 @@ export default function HomePage() {
       )
     : 0;
   const totalConceptCards = getTotalConceptCards();
+  const totalQuickReviewCards = getTotalQuickReviewCards();
   const checkedConceptCards = mounted ? Object.values(cardStatus).length : 0;
   const uncertainConceptCards = mounted
     ? Object.values(cardStatus).filter((status) => status !== "known").length
@@ -88,13 +90,13 @@ export default function HomePage() {
           기출 풀이와 개념 카드로 반복 학습
         </p>
         <p className="text-gray-500 text-sm">
-          2020~2025년 기출 복원과 2026 예상 모의고사 {totalQuestions}문제 · 개념 카드{" "}
-          {totalConceptCards}장
+          2020~2025년 기출 복원과 2026 예상 모의고사 {totalQuestions}문제 ·
+          개념/총정리 카드 {totalConceptCards + totalQuickReviewCards}장
         </p>
       </div>
 
       {/* Study Modes */}
-      <section className="grid gap-4 md:grid-cols-2">
+      <section className="grid gap-4 md:grid-cols-3">
         <Link
           href="#exam-list"
           className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-blue-700 hover:bg-gray-900/80"
@@ -140,6 +142,26 @@ export default function HomePage() {
               다시 볼 카드 {uncertainConceptCards}장
             </div>
           )}
+        </Link>
+
+        <Link
+          href="/quick"
+          className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-cyan-700 hover:bg-gray-900/80"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-cyan-400">총정리</p>
+              <h2 className="mt-2 text-xl font-bold text-white">
+                짧은 암기 카드
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                CRC, ARP, 응집도, 결합도 같은 단답 개념을 바로 확인합니다.
+              </p>
+            </div>
+            <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
+              {totalQuickReviewCards}장
+            </span>
+          </div>
         </Link>
       </section>
 
