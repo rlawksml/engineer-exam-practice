@@ -21,6 +21,9 @@ import exam2024_3 from "@/data/exam2024-3";
 import exam2025_1 from "@/data/exam2025-1";
 import exam2025_2 from "@/data/exam2025-2";
 import exam2025_3 from "@/data/exam2025-3";
+import mockExam2026_1 from "@/data/mockExam2026-1";
+import mockExam2026_2 from "@/data/mockExam2026-2";
+import mockExam2026_3 from "@/data/mockExam2026-3";
 import { ExamData, Language } from "@/data/types";
 import QuestionCard from "@/components/QuestionCard";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -28,6 +31,9 @@ import ProgressBar from "@/components/ProgressBar";
 import useExamStore from "@/store/useExamStore";
 
 const examMap: Record<string, ExamData> = {
+  "2026-mock-1": mockExam2026_1,
+  "2026-mock-2": mockExam2026_2,
+  "2026-mock-3": mockExam2026_3,
   "2020-1": exam2020_1,
   "2020-2": exam2020_2,
   "2020-3": exam2020_3,
