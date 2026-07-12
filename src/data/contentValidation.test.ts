@@ -18,9 +18,15 @@ import exam2024_3 from "./exam2024-3";
 import exam2025_1 from "./exam2025-1";
 import exam2025_2 from "./exam2025-2";
 import exam2025_3 from "./exam2025-3";
+import mockExam2026_1 from "./mockExam2026-1";
+import mockExam2026_2 from "./mockExam2026-2";
+import mockExam2026_3 from "./mockExam2026-3";
 import { ConceptCard, ExamData, Question } from "./types";
 
 const exams: ExamData[] = [
+  mockExam2026_1,
+  mockExam2026_2,
+  mockExam2026_3,
   exam2020_1,
   exam2020_2,
   exam2020_3,
@@ -108,6 +114,15 @@ describe("exam data integrity", () => {
     expect(question.explanation).toContain("현재 테이블 기준 정답: 2");
     expect(question.explanation).not.toContain("복원 정답: 4");
     expect(question.commonMistakes).toContain("COUNT(col2)가 NULL을 제외한다는 점을 놓침");
+  });
+
+  it("includes three 2026 mock exams with 20 questions each", () => {
+    [mockExam2026_1, mockExam2026_2, mockExam2026_3].forEach((exam) => {
+      expect(exam.questions, exam.id).toHaveLength(20);
+      expect(exam.questions[0].explanation).toContain(
+        "exam/2026_information_processing_engineer_mock_exam_3sets.md"
+      );
+    });
   });
 });
 

@@ -23,9 +23,13 @@ import exam2024_3 from "@/data/exam2024-3";
 import exam2025_1 from "@/data/exam2025-1";
 import exam2025_2 from "@/data/exam2025-2";
 import exam2025_3 from "@/data/exam2025-3";
+import mockExam2026_1 from "@/data/mockExam2026-1";
+import mockExam2026_2 from "@/data/mockExam2026-2";
+import mockExam2026_3 from "@/data/mockExam2026-3";
 import { ExamData, Language } from "@/data/types";
 
 const exams: ExamData[] = [
+  mockExam2026_3, mockExam2026_2, mockExam2026_1,
   exam2025_3, exam2025_2, exam2025_1,
   exam2024_3, exam2024_2, exam2024_1,
   exam2023_3, exam2023_2, exam2023_1,
@@ -84,7 +88,7 @@ export default function HomePage() {
           기출 풀이와 개념 카드로 반복 학습
         </p>
         <p className="text-gray-500 text-sm">
-          2020~2025년 기출 복원 {totalQuestions}문제 · 개념 카드{" "}
+          2020~2025년 기출 복원과 2026 예상 모의고사 {totalQuestions}문제 · 개념 카드{" "}
           {totalConceptCards}장
         </p>
       </div>

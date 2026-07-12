@@ -7,6 +7,7 @@
 ## 주요 기능
 
 - 2020~2025년 정보처리기사 실기 기출 복원 문제 풀이
+- 2026년 정보처리기사 실기 예상 모의고사 3회분
 - C / Java / Python / SQL / 이론 카테고리 필터
 - 정답 입력, 해설 확인, JavaScript 비교 예시
 - 문제별 난이도, 핵심 개념, 자주 틀리는 포인트 표시
@@ -28,6 +29,8 @@
 ## 기준 문서
 
 - `information_processing_engineer_practical_exam_strategy.md`
+- `exam/2026_second_exam_prediction_and_question_generation_guide.md`
+- `exam/2026_information_processing_engineer_mock_exam_3sets.md`
 
 이 문서는 최근 복원 문제 흐름, 언어별 대표 함정, 예상문제 생성 비율, 해설 작성 형식, 오답노트 작성 기준을 정리합니다.
 
