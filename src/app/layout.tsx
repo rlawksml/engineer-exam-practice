@@ -52,6 +52,12 @@ export default function RootLayout({
                 >
                   개념 카드
                 </Link>
+                <Link
+                  href="/quick"
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  총정리
+                </Link>
               </nav>
             </div>
           </header>
