@@ -43,6 +43,7 @@ npm run dev
 ## 검증
 
 ```bash
+npm run test
 npm run lint
 npm run build
 ```
