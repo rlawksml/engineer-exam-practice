@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { conceptSections } from "./conceptCards";
 import { quickReviewCards, quickReviewSections } from "./quickReviewCards";
+import { sqlLabData } from "./sqlLab";
 import exam2020_1 from "./exam2020-1";
 import exam2020_2 from "./exam2020-2";
 import exam2020_3 from "./exam2020-3";
@@ -338,5 +339,57 @@ describe("quick review card integrity", () => {
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
     expect(byId.get("se-driver")?.answer).toBe("드라이버");
+  });
+});
+
+describe("SQL lab integrity", () => {
+  it("keeps two source tables and SQL flow examples complete", () => {
+    expect(sqlLabData.tables).toHaveLength(2);
+    expect(sqlLabData.examples.length).toBeGreaterThanOrEqual(6);
+
+    sqlLabData.tables.forEach((table) => {
+      expectNonEmpty(table.name, "sql table name");
+      expectNonEmpty(table.description, `sql table description: ${table.name}`);
+      expect(table.columns.length, `sql table columns: ${table.name}`).toBeGreaterThan(0);
+      expect(table.rows.length, `sql table rows: ${table.name}`).toBeGreaterThan(0);
+      table.rows.forEach((row) => {
+        expect(row, `row width: ${table.name}`).toHaveLength(table.columns.length);
+      });
+    });
+
+    sqlLabData.examples.forEach((example) => {
+      expectNonEmpty(example.id, "sql lab id");
+      expectNonEmpty(example.title, `sql lab title: ${example.id}`);
+      expectNonEmpty(example.goal, `sql lab goal: ${example.id}`);
+      expectNonEmpty(example.description, `sql lab description: ${example.id}`);
+      expectNonEmpty(example.sql, `sql lab sql: ${example.id}`);
+      expectNonEmpty(example.resultTitle, `sql lab result title: ${example.id}`);
+      expectNonEmpty(example.examPoint, `sql lab exam point: ${example.id}`);
+      expectNonEmpty(example.trap, `sql lab trap: ${example.id}`);
+      expect(example.steps.length, `sql lab steps: ${example.id}`).toBeGreaterThan(0);
+      expect(example.resultColumns.length, `sql lab result columns: ${example.id}`).toBeGreaterThan(
+        0
+      );
+      example.resultRows.forEach((row) => {
+        expect(row, `sql lab result row width: ${example.id}`).toHaveLength(
+          example.resultColumns.length
+        );
+      });
+    });
+  });
+
+  it("covers join, aggregate, DDL, DML/TCL, and DCL examples", () => {
+    const byId = new Map(sqlLabData.examples.map((example) => [example.id, example]));
+
+    expect(byId.get("inner-join")?.sql).toContain("INNER JOIN");
+    expect(byId.get("left-join")?.sql).toContain("LEFT JOIN");
+    expect(byId.get("aggregate-order")?.sql).toContain("GROUP BY");
+    expect(byId.get("aggregate-order")?.sql).toContain("HAVING");
+    expect(byId.get("dml-tcl")?.sql).toContain("SAVEPOINT");
+    expect(byId.get("dml-tcl")?.sql).toContain("ROLLBACK TO");
+    expect(byId.get("ddl-flow")?.sql).toContain("RENAME TABLE");
+    expect(byId.get("ddl-flow")?.sql).toContain("TRUNCATE TABLE");
+    expect(byId.get("dcl-flow")?.sql).toContain("GRANT");
+    expect(byId.get("dcl-flow")?.sql).toContain("REVOKE");
   });
 });

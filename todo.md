@@ -150,6 +150,9 @@
 - [x] WHERE/GROUP BY/HAVING/COUNT/ORDER BY/ASC/DESC 유사 실전 문제 추가
 - [x] DML/DDL/DCL/TCL 전체 명령어 표 기반 예시 문법 보강
 - [x] RENAME, TRUNCATE, SAVEPOINT, RETRIEVE 설명 보강
+- [x] SQL 전용 학습 섹션 추가
+- [x] 두 개 테이블 기준 JOIN/집계/DDL/DML/DCL/TCL 흐름 예시 추가
+- [x] SQL 전용 섹션 홈/상단 내비게이션 연결
 - [ ] 전체 회차 주요 문제에 보강 데이터 확장
 - [ ] 오답노트와 commonMistakes 연결
 - [ ] 전략 문서 기반 예상문제 생성 테스트 케이스 확대
