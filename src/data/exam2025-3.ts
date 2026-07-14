@@ -417,6 +417,27 @@ WHERE id IN (1, 2, 3);`,
             "GROUP BY dept로 DB 3행, NW 1행이 묶입니다. COUNT(*)는 NULL 여부와 무관하게 그룹의 전체 행 수를 셉니다. COUNT(bonus)는 bonus가 NULL이 아닌 행만 세므로 DB는 10과 20 두 개, NW는 0개입니다. ORDER BY dept ASC로 DB가 NW보다 먼저 출력됩니다.",
           trap: "COUNT(*)와 COUNT(column)의 NULL 처리 차이를 구분해야 합니다.",
         },
+        {
+          id: "2025-3-305-p11",
+          title: "유사 실전 문제: SQL 명령어 분류와 예시 문법",
+          question:
+            "다음 설명에 맞는 명령어 종류(DML/DDL/DCL/TCL), 명령어, 예시 SQL을 쓰시오.\n\n1. STUDENT 테이블에서 3학년 학생의 id와 name을 조회한다.\n2. STUDENT 테이블에 email 컬럼을 추가한다.\n3. STUDENT 테이블의 이름을 EXAM_STUDENT로 바꾼다.\n4. STUDENT 테이블의 모든 행을 삭제하되 테이블 구조는 남긴다.\n5. user1에게 STUDENT 테이블 조회 권한을 부여한다.\n6. 현재 트랜잭션의 중간 지점 sp1을 만든다.",
+          answer:
+            "1. DML, SELECT, SELECT id, name FROM STUDENT WHERE grade = 3;\n2. DDL, ALTER, ALTER TABLE STUDENT ADD email VARCHAR(50);\n3. DDL, RENAME, RENAME TABLE STUDENT TO EXAM_STUDENT;\n4. DDL, TRUNCATE, TRUNCATE TABLE STUDENT;\n5. DCL, GRANT, GRANT SELECT ON STUDENT TO user1;\n6. TCL, SAVEPOINT, SAVEPOINT sp1;",
+          explanation:
+            "SELECT는 데이터를 조회하는 DML이며 RETRIEVE라고도 부릅니다. ALTER, RENAME, TRUNCATE는 테이블 구조나 객체 정의와 관련된 DDL입니다. GRANT는 객체 사용 권한을 부여하는 DCL입니다. SAVEPOINT는 트랜잭션 중간 지점을 만드는 TCL입니다.",
+          trap: "TRUNCATE는 데이터가 사라지지만 DML이 아니라 DDL로 분류합니다. SAVEPOINT는 권한 제어가 아니라 트랜잭션 제어입니다.",
+        },
+        {
+          id: "2025-3-305-p12",
+          title: "유사 실전 문제: DML과 TCL 실행 흐름",
+          question:
+            "다음 SQL 실행 후 최종 반영되는 작업을 설명하시오.\n\nINSERT INTO STUDENT (id, name) VALUES (1, 'Kim');\nSAVEPOINT sp1;\nUPDATE STUDENT SET name = 'Lee' WHERE id = 1;\nROLLBACK TO sp1;\nCOMMIT;",
+          answer: "id=1 행 삽입은 확정되고, name을 Lee로 바꾼 UPDATE는 취소된다.",
+          explanation:
+            "INSERT 후 SAVEPOINT sp1을 만들었습니다. 이후 UPDATE로 name을 Lee로 바꾸지만 ROLLBACK TO sp1이 실행되어 sp1 이후 변경인 UPDATE가 취소됩니다. 마지막 COMMIT으로 sp1 이전의 INSERT 결과가 확정됩니다.",
+          trap: "ROLLBACK TO sp1은 트랜잭션 전체를 무조건 취소하는 것이 아니라 지정한 저장점 이후 변경을 되돌립니다.",
+        },
       ],
       jsComparison: `// JavaScript 등가 코드
 const A = [

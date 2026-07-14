@@ -186,6 +186,12 @@ describe("concept card integrity", () => {
     expect(byId.get("sql-where-group-having-order-flow")?.back).toContain("ORDER BY avg_score DESC");
     expect(byId.get("sql-where-vs-having")?.back).toContain("그룹을 만들기 전에");
     expect(byId.get("sql-order-asc-desc")?.back).toContain("내림차순");
+    expect(byId.get("sql-command-taxonomy-syntax")?.back).toContain("RETRIEVE");
+    expect(byId.get("sql-command-taxonomy-syntax")?.back).toContain("RENAME TABLE");
+    expect(byId.get("sql-command-taxonomy-syntax")?.back).toContain("TRUNCATE TABLE");
+    expect(byId.get("sql-command-taxonomy-syntax")?.back).toContain("SAVEPOINT sp1");
+    expect(byId.get("sql-truncate-delete-drop-rename")?.back).toContain("DELETE FROM");
+    expect(byId.get("sql-truncate-delete-drop-rename")?.back).toContain("DROP TABLE");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
@@ -247,6 +253,22 @@ describe("concept card integrity", () => {
           practice.answer.includes("bonus_cnt=0")
       )
     ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("명령어 종류") &&
+          practice.answer.includes("RENAME TABLE STUDENT TO EXAM_STUDENT") &&
+          practice.answer.includes("SAVEPOINT sp1")
+      )
+    ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("ROLLBACK TO sp1") &&
+          practice.answer.includes("삽입은 확정") &&
+          practice.answer.includes("UPDATE는 취소")
+      )
+    ).toBe(true);
   });
 });
 
@@ -304,6 +326,14 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-order-desc")?.answer).toContain("큰 값");
     expect(byId.get("db-order-asc")?.answer).toContain("사전순");
     expect(byId.get("db-order-multi")?.answer).toContain("동점");
+    expect(byId.get("db-select-retrieve")?.answer).toBe("RETRIEVE");
+    expect(byId.get("db-rename")?.answer).toBe("RENAME");
+    expect(byId.get("db-truncate")?.answer).toBe("TRUNCATE");
+    expect(byId.get("db-grant-syntax")?.answer).toContain("GRANT SELECT");
+    expect(byId.get("db-revoke-syntax")?.answer).toContain("REVOKE");
+    expect(byId.get("db-savepoint")?.answer).toBe("SAVEPOINT");
+    expect(byId.get("db-commit")?.answer).toBe("COMMIT");
+    expect(byId.get("db-rollback")?.answer).toBe("ROLLBACK");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");

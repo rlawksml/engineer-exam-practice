@@ -394,6 +394,79 @@ ORDER BY avg_score DESC, dept ASC;
         relatedKeywords: ["ORDER BY", "DESC", "ASC", "정렬"],
       },
       {
+        id: "sql-command-taxonomy-syntax",
+        sectionId: "sql-db",
+        front: "DML, DDL, DCL, TCL 전체 명령어와 예시 문법을 한 번에 정리하면?",
+        back: `기준 테이블은 STUDENT(id, name, grade, score)라고 가정합니다.
+
+DML: Data Manipulation Language, 데이터 조작어
+- SELECT: 데이터 조회/검색. RETRIEVE라고도 부릅니다.
+  예) SELECT id, name FROM STUDENT WHERE grade = 3;
+- INSERT: 행 데이터 삽입
+  예) INSERT INTO STUDENT (id, name, grade, score) VALUES (1, 'Kim', 3, 90);
+- UPDATE: 기존 행 데이터 수정
+  예) UPDATE STUDENT SET score = 95 WHERE id = 1;
+- DELETE: 조건에 맞는 행 데이터 삭제
+  예) DELETE FROM STUDENT WHERE id = 1;
+
+DDL: Data Definition Language, 데이터 정의어
+- CREATE: 테이블, 뷰 같은 데이터 구조 생성
+  예) CREATE TABLE STUDENT (id INT, name VARCHAR(20), grade INT, score INT);
+- ALTER: 기존 데이터 구조 변경
+  예) ALTER TABLE STUDENT ADD email VARCHAR(50);
+- DROP: 데이터 구조 객체 삭제
+  예) DROP TABLE STUDENT;
+- RENAME: 데이터 구조 이름 변경
+  예) RENAME TABLE STUDENT TO EXAM_STUDENT;
+- TRUNCATE: 테이블 구조는 남기고 전체 행 삭제
+  예) TRUNCATE TABLE STUDENT;
+
+DCL: Data Control Language, 데이터 제어어
+- GRANT: 객체 사용 권한 부여
+  예) GRANT SELECT, INSERT ON STUDENT TO user1;
+- REVOKE: 객체 사용 권한 회수
+  예) REVOKE INSERT ON STUDENT FROM user1;
+
+TCL: Transaction Control Language, 트랜잭션 제어어
+- COMMIT: DML 변경 결과를 트랜잭션 단위로 확정
+  예) COMMIT;
+- ROLLBACK: 아직 확정하지 않은 DML 변경 결과를 취소
+  예) ROLLBACK;
+- SAVEPOINT: 롤백 가능한 중간 지점 지정
+  예) SAVEPOINT sp1; ROLLBACK TO sp1;`,
+        examPoint: "명령어를 외울 때 목적을 붙입니다. 데이터 조작은 DML, 구조 정의는 DDL, 권한 제어는 DCL, DML 결과의 트랜잭션 제어는 TCL입니다.",
+        trap: "`TRUNCATE`는 전체 행을 비우지만 DDL로 분류합니다. `DELETE`는 조건 행 삭제인 DML입니다. `COMMIT`, `ROLLBACK`, `SAVEPOINT`는 권한이 아니라 트랜잭션 제어입니다.",
+        relatedKeywords: [
+          "DML",
+          "DDL",
+          "DCL",
+          "TCL",
+          "SELECT",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "CREATE",
+          "ALTER",
+          "DROP",
+          "RENAME",
+          "TRUNCATE",
+          "GRANT",
+          "REVOKE",
+          "COMMIT",
+          "ROLLBACK",
+          "SAVEPOINT",
+        ],
+      },
+      {
+        id: "sql-truncate-delete-drop-rename",
+        sectionId: "sql-db",
+        front: "TRUNCATE, DELETE, DROP, RENAME을 STUDENT 테이블 예시로 구분하면?",
+        back: "`DELETE FROM STUDENT WHERE grade = 1;`은 조건에 맞는 행만 삭제하는 DML입니다. `TRUNCATE TABLE STUDENT;`는 테이블 구조는 남기고 전체 행을 비우는 DDL입니다. `DROP TABLE STUDENT;`는 테이블 객체 자체를 삭제하는 DDL입니다. `RENAME TABLE STUDENT TO EXAM_STUDENT;`는 테이블 이름을 바꾸는 DDL입니다.",
+        examPoint: "삭제라는 말만 보고 고르지 말고 삭제 대상이 행인지, 전체 행인지, 테이블 객체인지 구분합니다.",
+        trap: "TRUNCATE와 DROP을 모두 '삭제'로만 외우면 최종 테이블 존재 여부 문제에서 틀립니다.",
+        relatedKeywords: ["TRUNCATE", "DELETE", "DROP", "RENAME", "DDL", "DML"],
+      },
+      {
         id: "db-acid",
         sectionId: "sql-db",
         front: "트랜잭션 ACID는 무엇의 약자일까요?",

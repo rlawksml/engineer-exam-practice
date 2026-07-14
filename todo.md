@@ -59,6 +59,10 @@
   - SQL 논리 처리 순서
   - `NULL`
   - DDL/DML/DCL/TCL 명령어 분류
+  - DML `SELECT`/`INSERT`/`UPDATE`/`DELETE` 예시 문법
+  - DDL `CREATE`/`ALTER`/`DROP`/`RENAME`/`TRUNCATE` 예시 문법
+  - DCL `GRANT`/`REVOKE` 예시 문법
+  - TCL `COMMIT`/`ROLLBACK`/`SAVEPOINT` 예시 문법
   - `DELETE`, `DROP`, `TRUNCATE` 차이
   - 하나의 테이블 기준 `CREATE VIEW`, `ALTER TABLE ADD`, `INSERT`, `UPDATE`, `DELETE`, `DROP` 이벤트 흐름
   - 하나의 테이블 기준 `WHERE`, `GROUP BY`, `HAVING`, `COUNT`, `ORDER BY`, `DESC`, `ASC` 집계/정렬 흐름
@@ -144,6 +148,8 @@
 - [x] VIEW 생성/삭제와 원본 테이블 관계 설명 보강
 - [x] 하나의 테이블 기준 SQL 집계/정렬 흐름형 상세 예시 추가
 - [x] WHERE/GROUP BY/HAVING/COUNT/ORDER BY/ASC/DESC 유사 실전 문제 추가
+- [x] DML/DDL/DCL/TCL 전체 명령어 표 기반 예시 문법 보강
+- [x] RENAME, TRUNCATE, SAVEPOINT, RETRIEVE 설명 보강
 - [ ] 전체 회차 주요 문제에 보강 데이터 확장
 - [ ] 오답노트와 commonMistakes 연결
 - [ ] 전략 문서 기반 예상문제 생성 테스트 케이스 확대
