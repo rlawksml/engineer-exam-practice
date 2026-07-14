@@ -6,6 +6,7 @@ import useExamStore from "@/store/useExamStore";
 import useConceptStore from "@/store/useConceptStore";
 import { conceptSections, getTotalConceptCards } from "@/data/conceptCards";
 import { getTotalQuickReviewCards } from "@/data/quickReviewCards";
+import { getTotalProgrammingLabExamples } from "@/data/programmingLab";
 import { getTotalSqlLabExamples } from "@/data/sqlLab";
 import exam2020_1 from "@/data/exam2020-1";
 import exam2020_2 from "@/data/exam2020-2";
@@ -75,6 +76,7 @@ export default function HomePage() {
     : 0;
   const totalConceptCards = getTotalConceptCards();
   const totalQuickReviewCards = getTotalQuickReviewCards();
+  const totalProgrammingLabExamples = getTotalProgrammingLabExamples();
   const totalSqlLabExamples = getTotalSqlLabExamples();
   const checkedConceptCards = mounted ? Object.values(cardStatus).length : 0;
   const uncertainConceptCards = mounted
@@ -98,7 +100,7 @@ export default function HomePage() {
       </div>
 
       {/* Study Modes */}
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Link
           href="#exam-list"
           className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-blue-700 hover:bg-gray-900/80"
@@ -182,6 +184,26 @@ export default function HomePage() {
             </div>
             <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
               {totalSqlLabExamples}개
+            </span>
+          </div>
+        </Link>
+
+        <Link
+          href="/programming"
+          className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-sky-700 hover:bg-gray-900/80"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-sky-400">문법 정리</p>
+              <h2 className="mt-2 text-xl font-bold text-white">
+                언어별 출력 추적
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                Python, Java, C의 자료형, 진법, 포인터 함정을 코드로 확인합니다.
+              </p>
+            </div>
+            <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
+              {totalProgrammingLabExamples}개
             </span>
           </div>
         </Link>

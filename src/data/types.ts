@@ -97,3 +97,30 @@ export interface SqlLabData {
   tables: SqlTableExample[];
   examples: SqlLabExample[];
 }
+
+export type ProgrammingLanguage = "Python" | "Java" | "C";
+
+export interface ProgrammingLabExample {
+  id: string;
+  language: ProgrammingLanguage;
+  title: string;
+  examSignal: string;
+  code: string;
+  output: string;
+  steps: string[];
+  examPoint: string;
+  trap: string;
+  relatedConcepts: string[];
+}
+
+export interface ProgrammingLabSection {
+  id: string;
+  language: ProgrammingLanguage;
+  title: string;
+  description: string;
+  examples: ProgrammingLabExample[];
+}
+
+export interface ProgrammingLabData {
+  sections: ProgrammingLabSection[];
+}

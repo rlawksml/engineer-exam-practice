@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { conceptSections } from "./conceptCards";
+import { programmingLabData, programmingLabExamples } from "./programmingLab";
 import { quickReviewCards, quickReviewSections } from "./quickReviewCards";
 import { sqlLabData } from "./sqlLab";
 import exam2020_1 from "./exam2020-1";
@@ -351,10 +352,72 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-composite-key")?.answer).toBe("복합키");
     expect(byId.get("db-primary-key-syntax")?.answer).toContain("PRIMARY KEY");
     expect(byId.get("db-unique-syntax")?.answer).toBe("UNIQUE");
+    expect(byId.get("prog-python-int-hex")?.answer).toBe("10");
+    expect(byId.get("prog-python-hex-output")?.answer).toBe("0x14");
+    expect(byId.get("prog-c-bit-and")?.answer).toBe("비트 AND");
+    expect(byId.get("prog-c-xor")?.answer).toBe("XOR");
+    expect(byId.get("prog-c-double-pointer")?.answer).toContain("포인터");
+    expect(byId.get("prog-c-function-pointer")?.answer).toBe("함수 포인터");
+    expect(byId.get("prog-java-primitive")?.answer).toBe("기본형");
+    expect(byId.get("prog-java-reference")?.answer).toBe("참조형");
+    expect(byId.get("prog-java-string-equals")?.answer).toBe(".equals()");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
     expect(byId.get("se-driver")?.answer).toBe("드라이버");
+  });
+});
+
+describe("programming lab integrity", () => {
+  it("keeps Python, Java, and C syntax examples complete", () => {
+    expect(programmingLabData.sections.map((section) => section.language)).toEqual([
+      "Python",
+      "Java",
+      "C",
+    ]);
+    expect(programmingLabExamples.length).toBeGreaterThanOrEqual(10);
+
+    programmingLabData.sections.forEach((section) => {
+      expectNonEmpty(section.id, "programming section id");
+      expectNonEmpty(section.title, `programming section title: ${section.id}`);
+      expectNonEmpty(section.description, `programming section description: ${section.id}`);
+      expect(section.examples.length, `examples for ${section.id}`).toBeGreaterThan(0);
+    });
+
+    programmingLabExamples.forEach((example) => {
+      expectNonEmpty(example.id, "programming example id");
+      expectNonEmpty(example.title, `programming title: ${example.id}`);
+      expectNonEmpty(example.examSignal, `programming exam signal: ${example.id}`);
+      expectNonEmpty(example.code, `programming code: ${example.id}`);
+      expectNonEmpty(example.output, `programming output: ${example.id}`);
+      expectNonEmpty(example.examPoint, `programming exam point: ${example.id}`);
+      expectNonEmpty(example.trap, `programming trap: ${example.id}`);
+      expect(example.steps.length, `programming steps: ${example.id}`).toBeGreaterThan(0);
+      expect(
+        example.relatedConcepts.length,
+        `programming concepts: ${example.id}`
+      ).toBeGreaterThan(0);
+    });
+  });
+
+  it("covers requested exam-style language concepts", () => {
+    const byId = new Map(programmingLabExamples.map((example) => [example.id, example]));
+
+    expect(byId.get("python-types")?.code).toContain("type(items[0]).__name__");
+    expect(byId.get("python-types")?.relatedConcepts).toEqual(
+      expect.arrayContaining(["list", "tuple", "dict", "set"])
+    );
+    expect(byId.get("python-hex-conversion")?.code).toContain('int("A", 16)');
+    expect(byId.get("python-hex-conversion")?.code).toContain("hex(");
+    expect(byId.get("java-types-casting")?.code).toContain("char c = 'A'");
+    expect(byId.get("java-string-equals")?.code).toContain(".equals");
+    expect(byId.get("java-reference-binding")?.code).toContain("Parent p = new Child()");
+    expect(byId.get("c-bit-operators")?.code).toContain("a & b");
+    expect(byId.get("c-bit-operators")?.code).toContain("a ^ b");
+    expect(byId.get("c-bit-operators")?.code).toContain("%x");
+    expect(byId.get("c-double-pointer")?.code).toContain("int **pp");
+    expect(byId.get("c-function-pointer")?.code).toContain("int (*fp)(int, int)");
+    expect(byId.get("c-struct-pointer")?.code).toContain("p->value");
   });
 });
 
