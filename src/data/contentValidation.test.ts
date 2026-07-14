@@ -180,6 +180,12 @@ describe("concept card integrity", () => {
     expect(byId.get("sql-table-event-flow")?.back).toContain("INSERT INTO");
     expect(byId.get("sql-table-event-flow")?.back).toContain("DROP TABLE");
     expect(byId.get("sql-view-vs-table")?.trap).toContain("DROP VIEW");
+    expect(byId.get("sql-where-group-having-order-flow")?.back).toContain("WHERE pass");
+    expect(byId.get("sql-where-group-having-order-flow")?.back).toContain("GROUP BY dept");
+    expect(byId.get("sql-where-group-having-order-flow")?.back).toContain("HAVING COUNT");
+    expect(byId.get("sql-where-group-having-order-flow")?.back).toContain("ORDER BY avg_score DESC");
+    expect(byId.get("sql-where-vs-having")?.back).toContain("그룹을 만들기 전에");
+    expect(byId.get("sql-order-asc-desc")?.back).toContain("내림차순");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
@@ -216,6 +222,29 @@ describe("concept card integrity", () => {
     expect(
       question.practiceQuestions?.some(
         (practice) => practice.question.includes("DROP TABLE") && practice.answer.includes("2, 3")
+      )
+    ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("GROUP BY dept") &&
+          practice.question.includes("HAVING COUNT") &&
+          practice.answer.includes("dept=DB")
+      )
+    ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("ORDER BY score DESC, name ASC") &&
+          practice.answer.includes("Choi, Kim, Lee, Park")
+      )
+    ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("COUNT(*)") &&
+          practice.question.includes("COUNT(bonus)") &&
+          practice.answer.includes("bonus_cnt=0")
       )
     ).toBe(true);
   });
@@ -267,6 +296,14 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-update-row-count")?.answer).toContain("값만 수정");
     expect(byId.get("db-drop-view")?.answer).toContain("뷰 정의만 삭제");
     expect(byId.get("db-drop-table")?.answer).toContain("테이블 객체");
+    expect(byId.get("db-where")?.answer).toContain("그룹화 전");
+    expect(byId.get("db-group-by")?.answer).toContain("그룹");
+    expect(byId.get("db-having")?.answer).toContain("그룹화 후");
+    expect(byId.get("db-count-star")?.answer).toContain("전체 행");
+    expect(byId.get("db-count-column")?.answer).toContain("NULL 제외");
+    expect(byId.get("db-order-desc")?.answer).toContain("큰 값");
+    expect(byId.get("db-order-asc")?.answer).toContain("사전순");
+    expect(byId.get("db-order-multi")?.answer).toContain("동점");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");

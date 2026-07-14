@@ -338,6 +338,62 @@ export const conceptSections: ConceptSection[] = [
         relatedKeywords: ["VIEW", "CREATE VIEW", "DROP VIEW", "원본 테이블"],
       },
       {
+        id: "sql-where-group-having-order-flow",
+        sectionId: "sql-db",
+        front: "하나의 SCORE 테이블에서 WHERE, GROUP BY, COUNT, HAVING, ORDER BY DESC/ASC는 어떤 순서로 결과를 만들까요?",
+        back: `기준 테이블 SCORE(student, dept, score, pass)입니다.
+
+| student | dept | score | pass |
+|---------|------|-------|------|
+| Kim     | DB   | 90    | Y    |
+| Lee     | DB   | 70    | Y    |
+| Park    | DB   | 50    | N    |
+| Choi    | NW   | 80    | Y    |
+| Jung    | NW   | 60    | N    |
+| Han     | SEC  | 95    | Y    |
+
+SQL:
+SELECT dept, COUNT(*) AS cnt, AVG(score) AS avg_score
+FROM SCORE
+WHERE pass = 'Y'
+GROUP BY dept
+HAVING COUNT(*) >= 2
+ORDER BY avg_score DESC, dept ASC;
+
+1. FROM: SCORE 테이블을 읽습니다.
+2. WHERE pass = 'Y': 합격 행만 남깁니다. Kim(DB,90), Lee(DB,70), Choi(NW,80), Han(SEC,95)
+3. GROUP BY dept: 부서별로 묶습니다. DB=[90,70], NW=[80], SEC=[95]
+4. SELECT 집계: DB는 COUNT=2, AVG=80 / NW는 COUNT=1, AVG=80 / SEC는 COUNT=1, AVG=95
+5. HAVING COUNT(*) >= 2: 그룹 중 COUNT가 2 이상인 DB만 남습니다.
+6. ORDER BY avg_score DESC, dept ASC: 남은 그룹을 평균 점수 내림차순, 동점이면 부서명 오름차순으로 정렬합니다. 여기서는 DB만 출력됩니다.
+
+최종 결과:
+| dept | cnt | avg_score |
+|------|-----|-----------|
+| DB   | 2   | 80        |`,
+        examPoint: "WHERE는 그룹화 전 행 필터, HAVING은 그룹화 후 그룹 필터입니다. ORDER BY DESC는 큰 값 먼저, ASC는 작은 값/사전순 먼저입니다.",
+        trap: "HAVING을 WHERE처럼 행마다 적용하거나, COUNT(*)와 COUNT(column)의 NULL 포함 차이를 놓치면 틀립니다.",
+        relatedKeywords: ["WHERE", "GROUP BY", "COUNT", "AVG", "HAVING", "ORDER BY", "DESC", "ASC"],
+      },
+      {
+        id: "sql-where-vs-having",
+        sectionId: "sql-db",
+        front: "WHERE와 HAVING을 한 테이블 예시로 구분하면?",
+        back: "`WHERE score >= 60`은 그룹을 만들기 전에 개별 행을 걸러냅니다. `HAVING COUNT(*) >= 2`는 GROUP BY로 묶은 뒤 그룹의 집계 결과를 기준으로 그룹을 걸러냅니다.",
+        examPoint: "집계 함수 `COUNT`, `SUM`, `AVG`, `MAX`, `MIN` 조건은 보통 HAVING에 둡니다.",
+        trap: "`WHERE COUNT(*) >= 2`처럼 집계 결과를 WHERE에서 바로 조건으로 쓰는 형태는 시험에서 자주 나오는 함정입니다.",
+        relatedKeywords: ["WHERE", "HAVING", "GROUP BY", "집계 조건"],
+      },
+      {
+        id: "sql-order-asc-desc",
+        sectionId: "sql-db",
+        front: "ORDER BY score DESC, name ASC는 어떻게 정렬할까요?",
+        back: "먼저 score를 큰 값부터 내림차순으로 정렬합니다. score가 같은 행끼리는 name을 오름차순, 즉 사전순으로 정렬합니다.",
+        examPoint: "ORDER BY에 컬럼이 여러 개 있으면 앞 컬럼으로 먼저 정렬하고, 값이 같을 때 다음 컬럼을 적용합니다.",
+        trap: "DESC/ASC가 전체 결과에 한 번만 적용되는 것이 아니라 각 정렬 기준 컬럼마다 붙을 수 있습니다.",
+        relatedKeywords: ["ORDER BY", "DESC", "ASC", "정렬"],
+      },
+      {
         id: "db-acid",
         sectionId: "sql-db",
         front: "트랜잭션 ACID는 무엇의 약자일까요?",

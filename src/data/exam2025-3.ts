@@ -387,6 +387,36 @@ WHERE id IN (1, 2, 3);`,
             "DROP TABLE은 DDL이며 테이블 객체 자체를 삭제합니다. 따라서 PRODUCT의 구조와 데이터가 함께 제거됩니다. V_PRODUCT는 PRODUCT를 기준으로 정의된 뷰이므로 원본 테이블이 사라진 뒤 정상 조회할 수 없습니다. 데이터만 지우고 구조를 남기는 설명은 TRUNCATE나 DELETE와 구분해야 합니다.",
           trap: "DROP TABLE을 DELETE처럼 행 데이터 삭제로만 해석하면 틀립니다.",
         },
+        {
+          id: "2025-3-305-p8",
+          title: "유사 실전 문제: WHERE GROUP BY HAVING ORDER BY",
+          question:
+            "다음 SQL 실행 결과를 쓰시오.\n\n[테이블 SCORE]\n| name | dept | score | pass |\n|------|------|-------|------|\n| Kim  | DB   | 90    | Y    |\n| Lee  | DB   | 70    | Y    |\n| Park | DB   | 50    | N    |\n| Choi | NW   | 80    | Y    |\n| Jung | NW   | 60    | N    |\n| Han  | SEC  | 95    | Y    |\n\nSELECT dept, COUNT(*) AS cnt, AVG(score) AS avg_score\nFROM SCORE\nWHERE pass = 'Y'\nGROUP BY dept\nHAVING COUNT(*) >= 2\nORDER BY avg_score DESC, dept ASC;",
+          answer: "dept=DB, cnt=2, avg_score=80",
+          explanation:
+            "WHERE pass='Y'로 Kim(DB,90), Lee(DB,70), Choi(NW,80), Han(SEC,95)만 남습니다. GROUP BY dept로 DB=[90,70], NW=[80], SEC=[95]가 됩니다. 집계하면 DB는 COUNT=2 AVG=80, NW는 COUNT=1 AVG=80, SEC는 COUNT=1 AVG=95입니다. HAVING COUNT(*) >= 2 조건으로 DB만 남습니다. ORDER BY는 남은 결과가 하나라 순서 변화가 없습니다.",
+          trap: "WHERE는 행 필터이고 HAVING은 그룹 필터입니다. HAVING 전에 NW와 SEC도 그룹으로 만들어지지만 COUNT가 1이라 제거됩니다.",
+        },
+        {
+          id: "2025-3-305-p9",
+          title: "유사 실전 문제: ASC/DESC 다중 정렬",
+          question:
+            "다음 SQL 실행 결과의 name 순서를 쓰시오.\n\n[테이블 SCORE]\n| name | score |\n|------|-------|\n| Kim  | 90    |\n| Lee  | 90    |\n| Park | 70    |\n| Choi | 90    |\n\nSELECT name, score\nFROM SCORE\nORDER BY score DESC, name ASC;",
+          answer: "Choi, Kim, Lee, Park",
+          explanation:
+            "score DESC로 점수가 큰 90점 행들이 먼저 오고 70점 Park이 마지막입니다. 90점 동점인 Choi, Kim, Lee는 name ASC 기준으로 사전순 정렬되어 Choi, Kim, Lee 순서가 됩니다.",
+          trap: "DESC는 score에만 적용되고, 동점 처리에는 두 번째 기준인 name ASC가 적용됩니다.",
+        },
+        {
+          id: "2025-3-305-p10",
+          title: "유사 실전 문제: COUNT(*)와 COUNT(column)",
+          question:
+            "다음 SQL 실행 결과를 쓰시오.\n\n[테이블 APPLY]\n| dept | bonus |\n|------|-------|\n| DB   | 10    |\n| DB   | NULL  |\n| DB   | 20    |\n| NW   | NULL  |\n\nSELECT dept, COUNT(*) AS total_cnt, COUNT(bonus) AS bonus_cnt\nFROM APPLY\nGROUP BY dept\nORDER BY dept ASC;",
+          answer: "DB: total_cnt=3, bonus_cnt=2 / NW: total_cnt=1, bonus_cnt=0",
+          explanation:
+            "GROUP BY dept로 DB 3행, NW 1행이 묶입니다. COUNT(*)는 NULL 여부와 무관하게 그룹의 전체 행 수를 셉니다. COUNT(bonus)는 bonus가 NULL이 아닌 행만 세므로 DB는 10과 20 두 개, NW는 0개입니다. ORDER BY dept ASC로 DB가 NW보다 먼저 출력됩니다.",
+          trap: "COUNT(*)와 COUNT(column)의 NULL 처리 차이를 구분해야 합니다.",
+        },
       ],
       jsComparison: `// JavaScript 등가 코드
 const A = [
