@@ -409,6 +409,13 @@ export const quickReviewSections: QuickReviewSection[] = [
         answer: "ROLLBACK",
         note: "트랜잭션의 미확정 변경을 되돌립니다.",
       },
+      {
+        id: "db-foreign-key-references",
+        sectionId: "database",
+        prompt: "외래키 설정 문법의 핵심 키워드는?",
+        answer: "FOREIGN KEY ... REFERENCES",
+        note: "예: FOREIGN KEY (dept_id) REFERENCES DEPARTMENT(dept_id);",
+      },
     ],
   },
   {

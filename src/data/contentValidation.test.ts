@@ -193,6 +193,8 @@ describe("concept card integrity", () => {
     expect(byId.get("sql-command-taxonomy-syntax")?.back).toContain("SAVEPOINT sp1");
     expect(byId.get("sql-truncate-delete-drop-rename")?.back).toContain("DELETE FROM");
     expect(byId.get("sql-truncate-delete-drop-rename")?.back).toContain("DROP TABLE");
+    expect(byId.get("sql-foreign-key-references")?.back).toContain("FOREIGN KEY");
+    expect(byId.get("sql-foreign-key-references")?.back).toContain("REFERENCES");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
@@ -335,6 +337,7 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-savepoint")?.answer).toBe("SAVEPOINT");
     expect(byId.get("db-commit")?.answer).toBe("COMMIT");
     expect(byId.get("db-rollback")?.answer).toBe("ROLLBACK");
+    expect(byId.get("db-foreign-key-references")?.answer).toContain("REFERENCES");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
@@ -389,6 +392,8 @@ describe("SQL lab integrity", () => {
     expect(byId.get("dml-tcl")?.sql).toContain("ROLLBACK TO");
     expect(byId.get("ddl-flow")?.sql).toContain("RENAME TABLE");
     expect(byId.get("ddl-flow")?.sql).toContain("TRUNCATE TABLE");
+    expect(byId.get("foreign-key-references")?.sql).toContain("FOREIGN KEY");
+    expect(byId.get("foreign-key-references")?.sql).toContain("REFERENCES DEPARTMENT");
     expect(byId.get("dcl-flow")?.sql).toContain("GRANT");
     expect(byId.get("dcl-flow")?.sql).toContain("REVOKE");
   });

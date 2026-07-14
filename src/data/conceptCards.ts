@@ -467,6 +467,15 @@ TCL: Transaction Control Language, 트랜잭션 제어어
         relatedKeywords: ["TRUNCATE", "DELETE", "DROP", "RENAME", "DDL", "DML"],
       },
       {
+        id: "sql-foreign-key-references",
+        sectionId: "sql-db",
+        front: "외래키를 설정할 때 REFERENCES는 무엇을 가리킬까요?",
+        back: "`FOREIGN KEY (dept_id) REFERENCES DEPARTMENT(dept_id)`에서 `FOREIGN KEY`는 자식 테이블의 컬럼이고, `REFERENCES` 뒤에는 참조 대상인 부모 테이블과 부모 컬럼이 옵니다.",
+        examPoint: "외래키 문법은 `FOREIGN KEY (자식컬럼) REFERENCES 부모테이블(부모컬럼)` 순서로 정리합니다.",
+        trap: "STUDENT.dept_id가 DEPARTMENT.dept_id를 참조한다면 부모 테이블은 DEPARTMENT입니다.",
+        relatedKeywords: ["FOREIGN KEY", "REFERENCES", "참조 무결성", "외래키"],
+      },
+      {
         id: "db-acid",
         sectionId: "sql-db",
         front: "트랜잭션 ACID는 무엇의 약자일까요?",
