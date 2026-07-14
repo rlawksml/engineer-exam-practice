@@ -59,6 +59,12 @@ export default function RootLayout({
                   SQL
                 </Link>
                 <Link
+                  href="/programming"
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  문법
+                </Link>
+                <Link
                   href="/quick"
                   className="text-gray-400 transition-colors hover:text-white"
                 >
