@@ -58,6 +58,8 @@
   - `WHERE`와 `HAVING`
   - SQL 논리 처리 순서
   - `NULL`
+  - DDL/DML/DCL/TCL 명령어 분류
+  - `DELETE`, `DROP`, `TRUNCATE` 차이
   - 정규화와 ACID
 - 네트워크/보안
   - ARP/RARP
@@ -133,6 +135,9 @@
 - [x] 2026 예상 모의고사 3회분, 총 60문제 추가
 - [x] 파트별 짧은 암기 카드 총정리 추가
 - [x] CRC, ARP/RARP, 응집도/결합도 등 단답형 카드 보강
+- [x] SQL/DB DDL, DML, DCL, TCL 개념 카드 보강
+- [x] SQL/DB DDL, DML, DCL 단답형 빠른 카드 보강
+- [x] SQL/DB DDL, DML, DCL 유사 실전 문제 추가
 - [ ] 전체 회차 주요 문제에 보강 데이터 확장
 - [ ] 오답노트와 commonMistakes 연결
 - [ ] 전략 문서 기반 예상문제 생성 테스트 케이스 확대

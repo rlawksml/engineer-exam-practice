@@ -327,6 +327,46 @@ WHERE id IN (1, 2, 3);`,
             "WHERE 조건으로 id 1, 2, 3 행이 선택됩니다. 이 중 score가 NULL이 아닌 행은 id 2와 3이므로 COUNT(score)는 2입니다.",
           trap: "COUNT(*)라면 3이지만 COUNT(score)는 NULL을 제외합니다.",
         },
+        {
+          id: "2025-3-305-p2",
+          title: "유사 실전 문제: DDL/DML/DCL 분류",
+          question:
+            "다음 SQL 명령을 DDL, DML, DCL로 각각 분류하시오.\n\n1. CREATE TABLE MEMBER (id INT, name VARCHAR(20));\n2. UPDATE MEMBER SET name = 'Kim' WHERE id = 1;\n3. GRANT SELECT ON MEMBER TO user1;",
+          answer: "1. DDL, 2. DML, 3. DCL",
+          explanation:
+            "CREATE TABLE은 테이블 구조를 생성하므로 DDL입니다. UPDATE는 테이블 안의 데이터를 수정하므로 DML입니다. GRANT는 사용자에게 권한을 부여하므로 DCL입니다.",
+          trap: "UPDATE는 테이블 구조 변경이 아니라 행 데이터 변경입니다.",
+        },
+        {
+          id: "2025-3-305-p3",
+          title: "유사 실전 문제: DELETE와 DROP 구분",
+          question:
+            "다음 설명에 맞는 SQL 명령을 각각 쓰시오.\n\n1. STUDENT 테이블에서 학번이 10인 행만 삭제한다.\n2. STUDENT 테이블 객체 자체를 삭제한다.",
+          answer: "1. DELETE, 2. DROP",
+          explanation:
+            "조건에 맞는 행만 삭제할 때는 DELETE FROM STUDENT WHERE 학번 = 10을 사용합니다. 테이블 객체 자체를 삭제할 때는 DROP TABLE STUDENT를 사용합니다.",
+          trap: "DELETE는 DML이고 DROP은 DDL입니다. 둘 다 '삭제'라는 말이 나오지만 삭제 대상이 다릅니다.",
+        },
+        {
+          id: "2025-3-305-p4",
+          title: "유사 실전 문제: INSERT/UPDATE/DELETE 결과",
+          question:
+            "다음 SQL 실행 후 EMP 테이블의 행 수를 쓰시오.\n\n[초기 EMP]\n| id | name |\n|----|------|\n| 1  | A    |\n| 2  | B    |\n\nINSERT INTO EMP VALUES (3, 'C');\nUPDATE EMP SET name = 'D' WHERE id = 2;\nDELETE FROM EMP WHERE id = 1;",
+          answer: "2",
+          explanation:
+            "초기 2행에서 INSERT로 1행이 추가되어 3행이 됩니다. UPDATE는 값만 바꾸므로 행 수는 그대로 3행입니다. DELETE로 id=1 행을 삭제하면 최종 2행입니다.",
+          trap: "UPDATE는 행 수를 바꾸지 않고 기존 행의 값만 변경합니다.",
+        },
+        {
+          id: "2025-3-305-p5",
+          title: "유사 실전 문제: COMMIT과 ROLLBACK",
+          question:
+            "다음 설명에 맞는 트랜잭션 제어 명령을 쓰시오.\n\n1. 지금까지의 변경 내용을 확정한다.\n2. 아직 확정하지 않은 변경 내용을 취소한다.",
+          answer: "1. COMMIT, 2. ROLLBACK",
+          explanation:
+            "COMMIT은 트랜잭션의 변경 내용을 확정합니다. ROLLBACK은 COMMIT 전 변경 내용을 취소하고 이전 상태로 되돌립니다.",
+          trap: "COMMIT/ROLLBACK은 권한을 다루는 DCL이 아니라 트랜잭션을 다루는 TCL로 분류합니다.",
+        },
       ],
       jsComparison: `// JavaScript 등가 코드
 const A = [

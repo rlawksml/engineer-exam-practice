@@ -167,9 +167,38 @@ describe("concept card integrity", () => {
     expect(byId.get("net-arp-rarp")?.back).toContain("RARP는 MAC 주소에서 IP 주소");
     expect(byId.get("sql-count")?.back).toContain("COUNT(*)");
     expect(byId.get("sql-count")?.back).toContain("NULL이 아닌 행");
+    expect(byId.get("sql-ddl")?.back).toContain("CREATE");
+    expect(byId.get("sql-ddl")?.trap).toContain("DELETE");
+    expect(byId.get("sql-dml")?.back).toContain("INSERT");
+    expect(byId.get("sql-dcl")?.back).toContain("GRANT");
+    expect(byId.get("sql-tcl")?.back).toContain("COMMIT");
+    expect(byId.get("sql-delete-drop-truncate")?.back).toContain("DELETE");
+    expect(byId.get("sql-delete-drop-truncate")?.back).toContain("DROP");
+    expect(byId.get("sql-delete-drop-truncate")?.back).toContain("TRUNCATE");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
+  });
+
+  it("adds DDL/DML/DCL practice coverage to the enriched SQL question", () => {
+    const question = allQuestions.find(
+      (item): item is Question => item.examId === "2025-3" && item.id === 305
+    );
+
+    expect(question).toBeDefined();
+    expect(question.practiceQuestions?.length).toBeGreaterThanOrEqual(5);
+    expect(question.practiceQuestions?.some((practice) => practice.answer.includes("DDL"))).toBe(
+      true
+    );
+    expect(question.practiceQuestions?.some((practice) => practice.answer.includes("DML"))).toBe(
+      true
+    );
+    expect(question.practiceQuestions?.some((practice) => practice.answer.includes("DCL"))).toBe(
+      true
+    );
+    expect(question.practiceQuestions?.some((practice) => practice.answer.includes("COMMIT"))).toBe(
+      true
+    );
   });
 });
 
@@ -209,6 +238,11 @@ describe("quick review card integrity", () => {
     expect(byId.get("network-crc")?.answer).toContain("오류 검출");
     expect(byId.get("network-rarp")?.prompt).toContain("MAC -> IP");
     expect(byId.get("network-rarp")?.answer).toBe("RARP");
+    expect(byId.get("db-ddl")?.answer).toBe("DDL");
+    expect(byId.get("db-dml")?.answer).toBe("DML");
+    expect(byId.get("db-dcl")?.answer).toBe("DCL");
+    expect(byId.get("db-tcl")?.answer).toBe("TCL");
+    expect(byId.get("db-drop-truncate-delete")?.answer).toContain("객체 삭제");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
