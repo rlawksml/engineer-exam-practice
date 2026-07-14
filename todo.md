@@ -60,6 +60,7 @@
   - `NULL`
   - DDL/DML/DCL/TCL 명령어 분류
   - `DELETE`, `DROP`, `TRUNCATE` 차이
+  - 하나의 테이블 기준 `CREATE VIEW`, `ALTER TABLE ADD`, `INSERT`, `UPDATE`, `DELETE`, `DROP` 이벤트 흐름
   - 정규화와 ACID
 - 네트워크/보안
   - ARP/RARP
@@ -138,6 +139,8 @@
 - [x] SQL/DB DDL, DML, DCL, TCL 개념 카드 보강
 - [x] SQL/DB DDL, DML, DCL 단답형 빠른 카드 보강
 - [x] SQL/DB DDL, DML, DCL 유사 실전 문제 추가
+- [x] 하나의 테이블 기준 SQL 이벤트 흐름형 상세 예시 추가
+- [x] VIEW 생성/삭제와 원본 테이블 관계 설명 보강
 - [ ] 전체 회차 주요 문제에 보강 데이터 확장
 - [ ] 오답노트와 commonMistakes 연결
 - [ ] 전략 문서 기반 예상문제 생성 테스트 케이스 확대
