@@ -68,3 +68,32 @@ export interface QuickReviewSection {
   description: string;
   cards: QuickReviewCard[];
 }
+
+export type SqlCell = string | number | null;
+
+export interface SqlTableExample {
+  name: string;
+  description: string;
+  columns: string[];
+  rows: SqlCell[][];
+}
+
+export interface SqlLabExample {
+  id: string;
+  title: string;
+  category: "JOIN" | "집계/정렬" | "DML/TCL" | "DDL" | "DCL";
+  goal: string;
+  description: string;
+  sql: string;
+  resultTitle: string;
+  resultColumns: string[];
+  resultRows: SqlCell[][];
+  steps: string[];
+  examPoint: string;
+  trap: string;
+}
+
+export interface SqlLabData {
+  tables: SqlTableExample[];
+  examples: SqlLabExample[];
+}

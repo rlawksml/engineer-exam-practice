@@ -53,6 +53,12 @@ export default function RootLayout({
                   개념 카드
                 </Link>
                 <Link
+                  href="/sql"
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  SQL
+                </Link>
+                <Link
                   href="/quick"
                   className="text-gray-400 transition-colors hover:text-white"
                 >

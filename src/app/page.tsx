@@ -6,6 +6,7 @@ import useExamStore from "@/store/useExamStore";
 import useConceptStore from "@/store/useConceptStore";
 import { conceptSections, getTotalConceptCards } from "@/data/conceptCards";
 import { getTotalQuickReviewCards } from "@/data/quickReviewCards";
+import { getTotalSqlLabExamples } from "@/data/sqlLab";
 import exam2020_1 from "@/data/exam2020-1";
 import exam2020_2 from "@/data/exam2020-2";
 import exam2020_3 from "@/data/exam2020-3";
@@ -74,6 +75,7 @@ export default function HomePage() {
     : 0;
   const totalConceptCards = getTotalConceptCards();
   const totalQuickReviewCards = getTotalQuickReviewCards();
+  const totalSqlLabExamples = getTotalSqlLabExamples();
   const checkedConceptCards = mounted ? Object.values(cardStatus).length : 0;
   const uncertainConceptCards = mounted
     ? Object.values(cardStatus).filter((status) => status !== "known").length
@@ -96,7 +98,7 @@ export default function HomePage() {
       </div>
 
       {/* Study Modes */}
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Link
           href="#exam-list"
           className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-blue-700 hover:bg-gray-900/80"
@@ -160,6 +162,26 @@ export default function HomePage() {
             </div>
             <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
               {totalQuickReviewCards}장
+            </span>
+          </div>
+        </Link>
+
+        <Link
+          href="/sql"
+          className="rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-violet-700 hover:bg-gray-900/80"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-violet-400">SQL 실습</p>
+              <h2 className="mt-2 text-xl font-bold text-white">
+                두 테이블 예시
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                JOIN부터 DDL, DML, DCL, TCL까지 테이블 결과로 확인합니다.
+              </p>
+            </div>
+            <span className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-400">
+              {totalSqlLabExamples}개
             </span>
           </div>
         </Link>
