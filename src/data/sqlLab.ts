@@ -195,6 +195,62 @@ DROP TABLE COURSE_ENROLLMENT;`,
       trap: "TRUNCATE와 DELETE는 둘 다 행이 사라질 수 있지만 TRUNCATE는 DDL, DELETE는 DML입니다.",
     },
     {
+      id: "foreign-key-references",
+      title: "REFERENCES로 외래키 설정하기",
+      category: "DDL",
+      goal: "STUDENT.dept_id가 DEPARTMENT.dept_id만 참조하도록 참조 무결성을 설정합니다.",
+      description:
+        "외래키는 자식 테이블의 컬럼 값이 부모 테이블의 기본키 또는 후보키에 존재해야 한다는 규칙입니다. SQL에서는 FOREIGN KEY와 REFERENCES를 함께 사용합니다.",
+      sql: `CREATE TABLE DEPARTMENT (
+  dept_id INT PRIMARY KEY,
+  dept_name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE STUDENT (
+  student_id INT PRIMARY KEY,
+  name VARCHAR(20) NOT NULL,
+  dept_id INT,
+  score INT,
+  CONSTRAINT fk_student_department
+    FOREIGN KEY (dept_id)
+    REFERENCES DEPARTMENT(dept_id)
+);
+
+-- 이미 만들어진 테이블에 나중에 외래키를 추가하는 방식
+ALTER TABLE STUDENT
+ADD CONSTRAINT fk_student_department
+FOREIGN KEY (dept_id)
+REFERENCES DEPARTMENT(dept_id);`,
+      resultTitle: "참조 무결성 적용 예",
+      resultColumns: ["SQL", "결과"],
+      resultRows: [
+        [
+          "INSERT INTO STUDENT VALUES (8, 'Rio', 10, 82);",
+          "DEPARTMENT.dept_id=10이 존재하므로 성공",
+        ],
+        [
+          "INSERT INTO STUDENT VALUES (9, 'Neo', 99, 77);",
+          "DEPARTMENT.dept_id=99가 없으므로 실패",
+        ],
+        [
+          "DELETE FROM DEPARTMENT WHERE dept_id = 10;",
+          "STUDENT가 dept_id=10을 참조 중이면 제한될 수 있음",
+        ],
+      ],
+      steps: [
+        "부모 테이블 DEPARTMENT의 dept_id를 PRIMARY KEY로 둡니다.",
+        "자식 테이블 STUDENT의 dept_id를 외래키로 지정합니다.",
+        "FOREIGN KEY (dept_id)는 자식 테이블의 참조 컬럼을 뜻합니다.",
+        "REFERENCES DEPARTMENT(dept_id)는 부모 테이블과 부모 컬럼을 뜻합니다.",
+        "자식 행을 INSERT할 때 dept_id 값은 부모 테이블에 존재해야 합니다.",
+        "부모 행을 DELETE할 때 그 값을 참조하는 자식 행이 있으면 삭제가 제한될 수 있습니다.",
+      ],
+      examPoint:
+        "외래키 문법은 FOREIGN KEY (자식컬럼) REFERENCES 부모테이블(부모컬럼) 순서로 외웁니다.",
+      trap:
+        "REFERENCES 뒤에는 참조 대상인 부모 테이블과 컬럼이 옵니다. STUDENT가 DEPARTMENT를 참조하면 부모는 DEPARTMENT입니다.",
+    },
+    {
       id: "dcl-flow",
       title: "DCL로 권한 주고 회수하기",
       category: "DCL",
