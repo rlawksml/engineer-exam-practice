@@ -293,6 +293,51 @@ export const conceptSections: ConceptSection[] = [
         relatedKeywords: ["SQL 분류", "CREATE TABLE", "INSERT", "GRANT"],
       },
       {
+        id: "sql-table-event-flow",
+        sectionId: "sql-db",
+        front: "하나의 STUDENT 테이블에서 CREATE VIEW, ALTER ADD, INSERT, UPDATE, DELETE, DROP은 각각 무엇을 바꿀까요?",
+        back: `기준 테이블이 STUDENT(id, name, grade)라고 가정합니다.
+
+1. CREATE VIEW V_STUDENT AS SELECT id, name FROM STUDENT;
+   - 실제 데이터를 복사해 새 테이블을 만드는 것이 아니라, STUDENT를 조회하는 가상 테이블 정의를 만듭니다.
+   - STUDENT 행이 바뀌면 뷰 조회 결과도 그 기준으로 달라집니다.
+
+2. ALTER TABLE STUDENT ADD email VARCHAR(50);
+   - STUDENT의 구조에 email 컬럼을 추가합니다.
+   - 기존 행에는 보통 email 값이 NULL로 들어갑니다.
+
+3. INSERT INTO STUDENT VALUES (3, 'Lee', 2, 'lee@test.com');
+   - STUDENT에 새 행 1개를 추가합니다.
+   - 테이블 구조는 그대로이고 행 수가 늘어납니다.
+
+4. UPDATE STUDENT SET grade = 3 WHERE id = 3;
+   - id가 3인 기존 행의 grade 값을 2에서 3으로 바꿉니다.
+   - 행 수는 변하지 않습니다.
+
+5. DELETE FROM STUDENT WHERE id = 1;
+   - 조건에 맞는 행만 삭제합니다.
+   - STUDENT 테이블 구조와 VIEW 정의는 남습니다.
+
+6. DROP VIEW V_STUDENT;
+   - 뷰 정의를 삭제합니다. 원본 STUDENT 테이블 데이터는 삭제되지 않습니다.
+
+7. DROP TABLE STUDENT;
+   - STUDENT 테이블 객체 자체를 삭제합니다.
+   - 이 테이블에 의존하던 뷰는 사용할 수 없게 됩니다.`,
+        examPoint: "구조를 바꾸는지, 행 데이터를 바꾸는지, 권한/트랜잭션을 바꾸는지 먼저 나누고 최종 행 수와 남아 있는 객체를 확인합니다.",
+        trap: "`VIEW 생성`을 실제 행 복사로 착각하거나, `UPDATE`가 행 수를 바꾼다고 생각하거나, `DROP VIEW`가 원본 테이블을 지운다고 착각하기 쉽습니다.",
+        relatedKeywords: ["VIEW", "ALTER TABLE", "INSERT", "UPDATE", "DELETE", "DROP"],
+      },
+      {
+        id: "sql-view-vs-table",
+        sectionId: "sql-db",
+        front: "VIEW를 만들면 원본 테이블의 데이터가 복사될까요?",
+        back: "일반적인 VIEW는 저장된 SELECT 정의에 가깝습니다. 원본 테이블을 기준으로 조회 결과를 보여주며, 원본 행이 바뀌면 VIEW 조회 결과도 함께 달라질 수 있습니다.",
+        examPoint: "`CREATE VIEW 이름 AS SELECT ...`는 객체 정의를 만드는 DDL이고, 원본 테이블의 행을 그대로 복제하는 명령으로 보지 않습니다.",
+        trap: "뷰 삭제(`DROP VIEW`)와 원본 테이블 삭제(`DROP TABLE`)를 반드시 구분합니다.",
+        relatedKeywords: ["VIEW", "CREATE VIEW", "DROP VIEW", "원본 테이블"],
+      },
+      {
         id: "db-acid",
         sectionId: "sql-db",
         front: "트랜잭션 ACID는 무엇의 약자일까요?",

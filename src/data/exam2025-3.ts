@@ -367,6 +367,26 @@ WHERE id IN (1, 2, 3);`,
             "COMMIT은 트랜잭션의 변경 내용을 확정합니다. ROLLBACK은 COMMIT 전 변경 내용을 취소하고 이전 상태로 되돌립니다.",
           trap: "COMMIT/ROLLBACK은 권한을 다루는 DCL이 아니라 트랜잭션을 다루는 TCL로 분류합니다.",
         },
+        {
+          id: "2025-3-305-p6",
+          title: "유사 실전 문제: 하나의 테이블 이벤트 흐름",
+          question:
+            "다음 SQL을 순서대로 실행했을 때 물음에 답하시오.\n\n[초기 STUDENT]\n| id | name | grade |\n|----|------|-------|\n| 1  | Kim  | 1     |\n| 2  | Park | 2     |\n\n1. CREATE VIEW V_STUDENT AS SELECT id, name FROM STUDENT;\n2. ALTER TABLE STUDENT ADD email VARCHAR(50);\n3. INSERT INTO STUDENT (id, name, grade, email) VALUES (3, 'Lee', 2, 'lee@test.com');\n4. UPDATE STUDENT SET grade = 3 WHERE id = 3;\n5. DELETE FROM STUDENT WHERE id = 1;\n6. DROP VIEW V_STUDENT;\n\n가. 최종 STUDENT의 행 수는?\n나. 최종 STUDENT에 email 컬럼은 존재하는가?\n다. V_STUDENT 뷰는 최종적으로 존재하는가?\n라. 원본 STUDENT 테이블은 DROP VIEW 때문에 삭제되는가?",
+          answer: "가. 2, 나. 존재함, 다. 존재하지 않음, 라. 삭제되지 않음",
+          explanation:
+            "초기 STUDENT는 2행입니다. CREATE VIEW는 뷰 정의만 만들고 STUDENT 행 수를 바꾸지 않습니다. ALTER TABLE ADD는 email 컬럼을 추가하므로 테이블 구조가 바뀌며 기존 Kim, Park 행의 email은 보통 NULL입니다. INSERT로 Lee 행이 추가되어 3행이 됩니다. UPDATE는 id=3 행의 grade 값을 2에서 3으로 바꾸지만 행 수는 그대로 3행입니다. DELETE는 id=1인 Kim 행을 삭제하므로 최종 STUDENT는 Park, Lee 두 행이 남습니다. DROP VIEW는 V_STUDENT 뷰 정의만 삭제하며 원본 STUDENT 테이블은 삭제하지 않습니다.",
+          trap: "VIEW 생성은 데이터 복사가 아니고, UPDATE는 행 수를 바꾸지 않으며, DROP VIEW는 원본 테이블을 삭제하지 않습니다.",
+        },
+        {
+          id: "2025-3-305-p7",
+          title: "유사 실전 문제: DROP TABLE 이후 객체 상태",
+          question:
+            "다음 SQL을 순서대로 실행했다.\n\nCREATE TABLE PRODUCT (id INT, name VARCHAR(20));\nINSERT INTO PRODUCT VALUES (1, 'Pen');\nCREATE VIEW V_PRODUCT AS SELECT id FROM PRODUCT;\nDROP TABLE PRODUCT;\n\n다음 중 맞는 설명을 모두 고르시오.\n1. PRODUCT 테이블의 데이터만 삭제되고 구조는 남는다.\n2. PRODUCT 테이블 객체 자체가 삭제된다.\n3. V_PRODUCT는 원본 테이블 PRODUCT에 의존하므로 정상 조회할 수 없다.\n4. DROP TABLE은 DML이다.",
+          answer: "2, 3",
+          explanation:
+            "DROP TABLE은 DDL이며 테이블 객체 자체를 삭제합니다. 따라서 PRODUCT의 구조와 데이터가 함께 제거됩니다. V_PRODUCT는 PRODUCT를 기준으로 정의된 뷰이므로 원본 테이블이 사라진 뒤 정상 조회할 수 없습니다. 데이터만 지우고 구조를 남기는 설명은 TRUNCATE나 DELETE와 구분해야 합니다.",
+          trap: "DROP TABLE을 DELETE처럼 행 데이터 삭제로만 해석하면 틀립니다.",
+        },
       ],
       jsComparison: `// JavaScript 등가 코드
 const A = [

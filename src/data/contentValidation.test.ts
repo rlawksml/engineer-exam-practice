@@ -175,6 +175,11 @@ describe("concept card integrity", () => {
     expect(byId.get("sql-delete-drop-truncate")?.back).toContain("DELETE");
     expect(byId.get("sql-delete-drop-truncate")?.back).toContain("DROP");
     expect(byId.get("sql-delete-drop-truncate")?.back).toContain("TRUNCATE");
+    expect(byId.get("sql-table-event-flow")?.back).toContain("CREATE VIEW");
+    expect(byId.get("sql-table-event-flow")?.back).toContain("ALTER TABLE");
+    expect(byId.get("sql-table-event-flow")?.back).toContain("INSERT INTO");
+    expect(byId.get("sql-table-event-flow")?.back).toContain("DROP TABLE");
+    expect(byId.get("sql-view-vs-table")?.trap).toContain("DROP VIEW");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
@@ -199,6 +204,20 @@ describe("concept card integrity", () => {
     expect(question.practiceQuestions?.some((practice) => practice.answer.includes("COMMIT"))).toBe(
       true
     );
+    expect(
+      question.practiceQuestions?.some(
+        (practice) =>
+          practice.question.includes("CREATE VIEW") &&
+          practice.question.includes("ALTER TABLE") &&
+          practice.question.includes("INSERT INTO") &&
+          practice.question.includes("DROP VIEW")
+      )
+    ).toBe(true);
+    expect(
+      question.practiceQuestions?.some(
+        (practice) => practice.question.includes("DROP TABLE") && practice.answer.includes("2, 3")
+      )
+    ).toBe(true);
   });
 });
 
@@ -243,6 +262,11 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-dcl")?.answer).toBe("DCL");
     expect(byId.get("db-tcl")?.answer).toBe("TCL");
     expect(byId.get("db-drop-truncate-delete")?.answer).toContain("객체 삭제");
+    expect(byId.get("db-create-view")?.answer).toContain("가상 테이블");
+    expect(byId.get("db-alter-add-column")?.answer).toBe("테이블 구조");
+    expect(byId.get("db-update-row-count")?.answer).toContain("값만 수정");
+    expect(byId.get("db-drop-view")?.answer).toContain("뷰 정의만 삭제");
+    expect(byId.get("db-drop-table")?.answer).toContain("테이블 객체");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
