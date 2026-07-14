@@ -251,6 +251,56 @@ REFERENCES DEPARTMENT(dept_id);`,
         "REFERENCES 뒤에는 참조 대상인 부모 테이블과 컬럼이 옵니다. STUDENT가 DEPARTMENT를 참조하면 부모는 DEPARTMENT입니다.",
     },
     {
+      id: "key-concepts",
+      title: "슈퍼키, 후보키, 기본키 등록하기",
+      category: "DDL",
+      goal: "유일성, 최소성 기준으로 키를 구분하고 PRIMARY KEY/UNIQUE로 등록하는 방법을 봅니다.",
+      description:
+        "키는 튜플을 식별하기 위한 속성 또는 속성 집합입니다. 시험에서는 슈퍼키, 후보키, 기본키, 대체키, 외래키의 포함 관계와 SQL 등록 문법을 함께 묻습니다.",
+      sql: `CREATE TABLE STUDENT (
+  student_id INT,
+  email VARCHAR(50),
+  name VARCHAR(20) NOT NULL,
+  dept_id INT,
+  score INT,
+  CONSTRAINT pk_student PRIMARY KEY (student_id),
+  CONSTRAINT uq_student_email UNIQUE (email),
+  CONSTRAINT fk_student_department
+    FOREIGN KEY (dept_id)
+    REFERENCES DEPARTMENT(dept_id)
+);
+
+-- 복합 기본키 예시: 한 학생은 같은 과목을 한 번만 수강
+CREATE TABLE ENROLLMENT (
+  student_id INT,
+  course_id INT,
+  grade CHAR(1),
+  CONSTRAINT pk_enrollment PRIMARY KEY (student_id, course_id)
+);`,
+      resultTitle: "키 구분",
+      resultColumns: ["키", "예시", "판단 기준"],
+      resultRows: [
+        ["슈퍼키", "{student_id}, {email}, {student_id, name}", "튜플을 유일하게 식별"],
+        ["후보키", "{student_id}, {email}", "유일성 + 최소성 만족"],
+        ["기본키", "{student_id}", "후보키 중 대표로 선택"],
+        ["대체키", "{email}", "기본키로 선택되지 않은 후보키"],
+        ["외래키", "{dept_id}", "다른 테이블의 기본키/후보키 참조"],
+        ["복합키", "{student_id, course_id}", "둘 이상의 속성을 묶어 식별"],
+      ],
+      steps: [
+        "student_id는 학생을 유일하게 식별하므로 후보키가 될 수 있습니다.",
+        "email도 중복되지 않는다고 정하면 UNIQUE 제약으로 후보키가 될 수 있습니다.",
+        "{student_id, name}은 유일하게 식별할 수 있지만 student_id만으로 충분하므로 최소성이 없어 후보키가 아니라 슈퍼키입니다.",
+        "후보키 중 student_id를 PRIMARY KEY로 선택하면 email은 대체키가 됩니다.",
+        "dept_id는 DEPARTMENT(dept_id)를 참조하므로 외래키입니다.",
+        "ENROLLMENT처럼 한 컬럼만으로 식별이 부족하면 두 컬럼을 묶은 복합키를 사용할 수 있습니다.",
+      ],
+      examPoint:
+        "후보키는 유일성과 최소성을 모두 만족합니다. 기본키는 후보키 중 선택된 대표 키이고, 선택되지 않은 후보키는 대체키입니다.",
+      trap:
+        "슈퍼키는 최소성을 요구하지 않습니다. 그래서 {student_id, name}처럼 불필요한 속성이 붙어도 유일하면 슈퍼키입니다.",
+    },
+    {
       id: "dcl-flow",
       title: "DCL로 권한 주고 회수하기",
       category: "DCL",

@@ -195,6 +195,11 @@ describe("concept card integrity", () => {
     expect(byId.get("sql-truncate-delete-drop-rename")?.back).toContain("DROP TABLE");
     expect(byId.get("sql-foreign-key-references")?.back).toContain("FOREIGN KEY");
     expect(byId.get("sql-foreign-key-references")?.back).toContain("REFERENCES");
+    expect(byId.get("sql-key-hierarchy")?.back).toContain("슈퍼키");
+    expect(byId.get("sql-key-hierarchy")?.back).toContain("후보키");
+    expect(byId.get("sql-key-hierarchy")?.back).toContain("기본키");
+    expect(byId.get("sql-primary-unique-key-syntax")?.back).toContain("PRIMARY KEY");
+    expect(byId.get("sql-primary-unique-key-syntax")?.back).toContain("UNIQUE");
     expect(byId.get("c-bit-ops")?.back).toContain("XOR");
     expect(byId.get("se-pattern-observer")?.back).toContain("Observer");
     expect(byId.get("java-overload-override")?.back).toContain("오버로딩 후보");
@@ -338,6 +343,14 @@ describe("quick review card integrity", () => {
     expect(byId.get("db-commit")?.answer).toBe("COMMIT");
     expect(byId.get("db-rollback")?.answer).toBe("ROLLBACK");
     expect(byId.get("db-foreign-key-references")?.answer).toContain("REFERENCES");
+    expect(byId.get("db-super-key")?.answer).toBe("슈퍼키");
+    expect(byId.get("db-candidate-key-rule")?.answer).toContain("유일성");
+    expect(byId.get("db-candidate-key-rule")?.answer).toContain("최소성");
+    expect(byId.get("db-primary-key-rule")?.answer).toBe("기본키");
+    expect(byId.get("db-alternate-key")?.answer).toBe("대체키");
+    expect(byId.get("db-composite-key")?.answer).toBe("복합키");
+    expect(byId.get("db-primary-key-syntax")?.answer).toContain("PRIMARY KEY");
+    expect(byId.get("db-unique-syntax")?.answer).toBe("UNIQUE");
     expect(byId.get("se-cohesion-order")?.answer).toContain("기능적");
     expect(byId.get("se-coupling-order")?.answer).toContain("자료");
     expect(byId.get("se-stub")?.answer).toBe("스텁");
@@ -394,6 +407,10 @@ describe("SQL lab integrity", () => {
     expect(byId.get("ddl-flow")?.sql).toContain("TRUNCATE TABLE");
     expect(byId.get("foreign-key-references")?.sql).toContain("FOREIGN KEY");
     expect(byId.get("foreign-key-references")?.sql).toContain("REFERENCES DEPARTMENT");
+    expect(byId.get("key-concepts")?.sql).toContain("PRIMARY KEY");
+    expect(byId.get("key-concepts")?.sql).toContain("UNIQUE");
+    expect(byId.get("key-concepts")?.resultRows.flat().join(" ")).toContain("슈퍼키");
+    expect(byId.get("key-concepts")?.resultRows.flat().join(" ")).toContain("후보키");
     expect(byId.get("dcl-flow")?.sql).toContain("GRANT");
     expect(byId.get("dcl-flow")?.sql).toContain("REVOKE");
   });
